@@ -1,0 +1,57 @@
+using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
+using Unity.VisualScripting;
+using UnityEngine;
+using CardRunner;
+
+namespace CardRunner{
+    [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
+public class Card : ScriptableObject
+{
+    public string cardName;
+    public Sprite cardImage;
+    public string cardDescriptor;
+    public CardType cardType;
+    public int cost;
+    public int dmg;
+    public List<Effect> applyEffect;
+    public DamageType damageType;
+    public List<int> effectSeverity;
+
+    public enum CardType
+        {
+            PHY,
+            HACK,
+            MULT,
+            RUST,
+            NULL
+        }
+    public enum Effect
+        {
+            MELT,
+            STUN,
+            AAA,
+            SELFDESTRUCT,
+            RECURSIVE,
+            SELFSWITCH,
+            ENEMYSWITCH,
+            DRAW,
+            DOUBLEDMG,
+            SELFHARM,
+            DRAWPHYIFSHIELD,
+            DRAWHACKIFPHY,
+            PILEDRIVER,
+            ODAY,
+            
+            NON
+
+        }
+    public enum DamageType
+        {
+            HACK,
+            PHY,
+            RUST
+        }
+}
+
+}

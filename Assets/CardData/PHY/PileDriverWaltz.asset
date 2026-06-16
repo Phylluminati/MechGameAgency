@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149cf724c69bdd94f98780332448589a, type: 3}
+  m_Name: PileDriverWaltz
+  m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
+  cardName: Piledriver Waltz
+  cardImage: {fileID: 21300000, guid: 3db0b83100563cf44ae5ed2c02059467, type: 3}
+  cardDescriptor: '"A gentler weapon from a more gentler time" \n "this is 2 tons
+    of explosive air pressure accelerated steel designed to punch through cockpit
+    armor, what do you mean more gentle???"'
+  cardType: 0
+  cost: 3
+  dmg: 50
+  applyEffect: 
+  damageType: 1
+  effectSeverity: 00000000
