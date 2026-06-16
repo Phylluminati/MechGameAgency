@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CardRunner;
 using TMPro;
+using System.Data;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] GameObject CardEmpty;
     [SerializeField] TMP_Text DrawNumber;
     [SerializeField] TMP_Text DiscardNumber;
+    [SerializeField] GameObject DMGNr;
+    [SerializeField] GameObject EnemyMechLocation;
+    [SerializeField] GameObject MainMechLocation;
 
     private GameObject _PHYDMGCounter;
     private GameObject _HACKDMGCounter;
@@ -98,10 +102,31 @@ public class GameManagerScript : MonoBehaviour
                     case Card.Effect.MELT:
                     //Deals XX Damage per stack of MELT to the target, Circumvents SHIELD, only Damages ARMOR and then HULL
                     int MELTStackDmg = 20;
+                    int MELTFullDmg = MELTStackDmg * currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i];
+                    GameObject tempDmgNumber = Instantiate(DMGNr, EnemyMechLocation.transform);
+                    tempDmgNumber.GetComponent<TMP_Text>().text = MELTFullDmg.ToString("0000");
+                    tempDmgNumber.GetComponent<TMP_Text>().color = Color.red;
+                    if(currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] > 0)
+                        {
+                            currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] -= MELTFullDmg;
+                            if(currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] < 0)
+                            {
+                                GameObject tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
+                                tempDmgNumber2.GetComponent<TMP_Text>().text = (-currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1]).ToString("0000");
+                                tempDmgNumber2.GetComponent<TMP_Text>().color = Color.red;
+                                currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[0] += currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1];
+                                currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] = 0;
+                            }
+                        }
+                    else
+                        {
+                            
+                        }
+                    currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i] -= 1;
                     break;
 
                     case Card.Effect.STUN:
-                    
+
                     break;
 
                     case Card.Effect.AAA:
@@ -126,6 +151,20 @@ public class GameManagerScript : MonoBehaviour
                     case Card.Effect.DOUBLEDMG:
 
                     break;    
+                }
+                
+            }
+            //I rather put this in a seperate for Loop, all this does is go over all the effects at end of turn and check if any of them have run out, if they have run out
+            //it will remove the effect from the activeEffects List and aE-Duration List and then go back a step to account for any later effects that slip into the place of
+            //the just checked List instance
+        for(int i = 0; i < currentEnemy.GetComponent<UnitTracker>().activeEffects.Count; i++)
+
+            {
+                if(currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i] == 0)
+                {
+                    currentEnemy.GetComponent<UnitTracker>().activeEffectDuration.RemoveAt(i);
+                    currentEnemy.GetComponent<UnitTracker>().activeEffects.RemoveAt(i);
+                    i--;
                 }
             }
 
