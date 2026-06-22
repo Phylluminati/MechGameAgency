@@ -18,6 +18,7 @@ public class DeckDisplayScript : MonoBehaviour
             GameObject card = Instantiate(gameManager.GetComponent<GameManagerScript>().cardPrefab, this.transform);
             card.transform.localScale = new Vector3 (0.5f, 0.5f, 1);
             card.GetComponent<CardDisplayScript>().cardData = gameManager.GetComponent<GameManagerScript>().currentDeck[i];
+            card.GetComponent<CardPlayScript>().isCardPlayable = false;
         }
         
     }

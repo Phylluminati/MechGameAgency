@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6900128860183332255}
   - component: {fileID: 5321351080215201909}
   - component: {fileID: 8221635825234028472}
+  - component: {fileID: 4765779372169497562}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -119,8 +120,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5321351080215201909}
-          m_TargetAssemblyTypeName: CardDisplayScript, Assembly-CSharp
+        - m_Target: {fileID: 4765779372169497562}
+          m_TargetAssemblyTypeName: CardPlayScript, Assembly-CSharp
           m_MethodName: DiscardCard
           m_Mode: 1
           m_Arguments:
@@ -131,6 +132,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &4765779372169497562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531041255208112654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 394217061a7b84948af889e89e28c047, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardPlayScript
+  cardData: {fileID: 0}
 --- !u!1 &5991980253454706509
 GameObject:
   m_ObjectHideFlags: 0

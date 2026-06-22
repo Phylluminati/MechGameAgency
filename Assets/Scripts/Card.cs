@@ -37,6 +37,8 @@ public class Card : ScriptableObject
             ENEMYSWITCH,
             DRAW,
             DOUBLEDMG,
+            DOUBLEDMGHACK,
+            DOUBLEDMGPHY,
             SELFHARM,
             DRAWPHYIFSHIELD,
             DRAWHACKIFPHY,

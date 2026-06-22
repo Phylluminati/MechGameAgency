@@ -4,6 +4,7 @@ using UnityEngine;
 using CardRunner;
 using TMPro;
 using System.Data;
+using UnityEditor.PackageManager;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -18,14 +19,19 @@ public class GameManagerScript : MonoBehaviour
             //it should keep track of any other relevant data, up to including setting preferences
 
     public GameObject currentEnemy;
+    public GameObject MainMech;
     public List<Card> currentDeck;
+    public int RoundEnergy;
     public List<Card> cardsPlayedThisTurn;
     public List<Card> drawPile;
     public List<Card> discardPile;
     [SerializeField] GameObject CardEmpty;
     [SerializeField] TMP_Text DrawNumber;
     [SerializeField] TMP_Text DiscardNumber;
+    //DMGNr is the PreFab for the Damage Numbers that pop up when inflicting damage of any kind
     [SerializeField] GameObject DMGNr;
+
+    //the EnemyMech and Mainmech locations are empty gameObjects to determine the Mechs location on the canvas so UI effects can be instantiated in the right positions
     [SerializeField] GameObject EnemyMechLocation;
     [SerializeField] GameObject MainMechLocation;
 
@@ -75,6 +81,10 @@ public class GameManagerScript : MonoBehaviour
         {
             GenerateDrawPile(); 
         }
+        // if I wanna add an effect that carries over energy between rounds I need to implement it right before the round energy gets reset to 4
+        RoundEnergy = 4;
+
+        UpdateUIEffects();
     }
     public void EndOfRoundCheck()
     {
@@ -85,11 +95,86 @@ public class GameManagerScript : MonoBehaviour
             case 0:
                 currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] -= roundHackDmgOutput/2;
                 currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] -= roundPhyDmgOutput;
+                currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] -= roundPhyDmgOutput;
+                if(currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] < 0)
+                     {
+                        currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2] += currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1];
+
+                        if(currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2] < 0)
+                        {
+                            GameObject tempDmgNumber = Instantiate(DMGNr, EnemyMechLocation.transform);
+                            tempDmgNumber.GetComponent<TMP_Text>().text = (-currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1]+currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2]).ToString("0000");
+                            tempDmgNumber.GetComponent<TMP_Text>().color = Color.red;
+
+                            currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[0] += currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2];
+
+                            GameObject tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
+                            tempDmgNumber2.GetComponent<TMP_Text>().text = (-currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2]).ToString("0000");
+                            tempDmgNumber2.GetComponent<TMP_Text>().color = Color.green;
+
+                            currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2] = 0;
+                        }
+                        else
+                    {
+                        GameObject tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
+                        tempDmgNumber2.GetComponent<TMP_Text>().text = (-currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1]).ToString("0000");
+                        tempDmgNumber2.GetComponent<TMP_Text>().color = Color.red;
+                    }
+
+
+                        currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] = 0;
+                    }
+                else
+                {
+                    GameObject tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
+                        tempDmgNumber2.GetComponent<TMP_Text>().text = (roundHackDmgOutput/2).ToString("0000");
+                        tempDmgNumber2.GetComponent<TMP_Text>().color = Color.green;
+
+                        tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
+                        tempDmgNumber2.GetComponent<TMP_Text>().text = roundPhyDmgOutput.ToString("0000");
+                        tempDmgNumber2.GetComponent<TMP_Text>().color = Color.red;
+                }
             break;
 
             case 1:
-                currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] -= roundHackDmgOutput;
-                currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] -= roundPhyDmgOutput/2;
+                currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2] -= roundHackDmgOutput;
+                currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2] -= roundPhyDmgOutput/2;
+                if(currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2] < 0)
+                     {
+                        currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] += currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2];
+                        if(currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] < 0)
+                        {
+                            GameObject tempDmgNumber = Instantiate(DMGNr, EnemyMechLocation.transform);
+                            tempDmgNumber.GetComponent<TMP_Text>().text = (-currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2]+currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1]).ToString("0000");
+                            tempDmgNumber.GetComponent<TMP_Text>().color = Color.green;
+
+                            currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[0] += currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1];
+                            GameObject tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
+                            tempDmgNumber2.GetComponent<TMP_Text>().text = (-currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2]).ToString("0000");
+                            tempDmgNumber2.GetComponent<TMP_Text>().color = Color.red;
+
+                            currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] = 0;
+                        }
+                        else
+                    {
+                        GameObject tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
+                        tempDmgNumber2.GetComponent<TMP_Text>().text = (-currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2]).ToString("0000");
+                        tempDmgNumber2.GetComponent<TMP_Text>().color = Color.green;
+                    }
+
+
+                        currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2] = 0;
+                    }
+                else
+                {
+                    GameObject tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
+                        tempDmgNumber2.GetComponent<TMP_Text>().text = roundHackDmgOutput.ToString("0000");
+                        tempDmgNumber2.GetComponent<TMP_Text>().color = Color.green;
+
+                        tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
+                        tempDmgNumber2.GetComponent<TMP_Text>().text = (roundPhyDmgOutput/2).ToString("0000");
+                        tempDmgNumber2.GetComponent<TMP_Text>().color = Color.red;
+                }
             break;
         }
 
@@ -100,29 +185,29 @@ public class GameManagerScript : MonoBehaviour
                 switch(currentEnemy.GetComponent<UnitTracker>().activeEffects[i])
                 {
                     case Card.Effect.MELT:
-                    //Deals XX Damage per stack of MELT to the target, Circumvents SHIELD, only Damages ARMOR and then HULL
-                    int MELTStackDmg = 20;
-                    int MELTFullDmg = MELTStackDmg * currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i];
-                    GameObject tempDmgNumber = Instantiate(DMGNr, EnemyMechLocation.transform);
-                    tempDmgNumber.GetComponent<TMP_Text>().text = MELTFullDmg.ToString("0000");
-                    tempDmgNumber.GetComponent<TMP_Text>().color = Color.red;
-                    if(currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] > 0)
-                        {
-                            currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] -= MELTFullDmg;
-                            if(currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] < 0)
+                        //Deals XX Damage per stack of MELT to the target, Circumvents SHIELD, only Damages ARMOR and then HULL
+                        int MELTStackDmg = 20;
+                        int MELTFullDmg = MELTStackDmg * currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i];
+                        GameObject tempDmgNumber = Instantiate(DMGNr, EnemyMechLocation.transform);
+                        tempDmgNumber.GetComponent<TMP_Text>().text = MELTFullDmg.ToString("0000");
+                        tempDmgNumber.GetComponent<TMP_Text>().color = Color.red;
+                        if(currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] > 0)
                             {
-                                GameObject tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
-                                tempDmgNumber2.GetComponent<TMP_Text>().text = (-currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1]).ToString("0000");
-                                tempDmgNumber2.GetComponent<TMP_Text>().color = Color.red;
-                                currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[0] += currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1];
-                                currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] = 0;
+                                currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] -= MELTFullDmg;
+                                if(currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] < 0)
+                                {
+                                    GameObject tempDmgNumber2 = Instantiate(DMGNr, EnemyMechLocation.transform);
+                                    tempDmgNumber2.GetComponent<TMP_Text>().text = (-currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1]).ToString("0000");
+                                    tempDmgNumber2.GetComponent<TMP_Text>().color = Color.red;
+                                    currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[0] += currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1];
+                                    currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] = 0;
+                                }
                             }
-                        }
-                    else
-                        {
-                            
-                        }
-                    currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i] -= 1;
+                        else
+                            {
+                                
+                            }
+                        currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i] -= 1;
                     break;
 
                     case Card.Effect.STUN:
@@ -167,11 +252,17 @@ public class GameManagerScript : MonoBehaviour
                     i--;
                 }
             }
-
+        
         roundHackDmgOutput = 0;
         roundPhyDmgOutput = 0;
         UpdateDMGCounters();
     }
+        MainMech.GetComponent<BattleHUD>().FullUpdateCheck();
+        currentEnemy.GetComponent<BattleHUD>().FullUpdateCheck();
+
+        // ---
+        //New round begins after End of Round and Enemy turn
+        NewRoundCheck();
     }
 
     public void UpdateDMGCounters()
@@ -230,6 +321,7 @@ public class GameManagerScript : MonoBehaviour
 
                 GameObject card = Instantiate(cardPrefab, CardEmpty.transform);
                 card.GetComponent<CardDisplayScript>().cardData = drawPile[0];
+                card.GetComponent<CardPlayScript>().cardData = drawPile[0];
                 drawPile.RemoveAt(0);
             }
             else
@@ -287,62 +379,129 @@ public class GameManagerScript : MonoBehaviour
         DiscardNumber.text = discardPile.Count.ToString();
     }
     public void PlayCardEffect(Card cardData)
+
     {
         //this method is responsible for causing card effects to happen, 
         // it will read Carddata from played/discarded cards, that got played with the DiscardCard() method in the carddisplayscript
         print("Card: " + cardData.cardName + "/n CardType: " + cardData.cardType);
-        if(cardData.dmg != 0)
-        {
-            switch(cardData.cardType)
+
+            if(cardData.dmg != 0)
             {
-                case Card.CardType.PHY:
-                    //ResolveDamageOutput here? or somewhere else?
-                    roundPhyDmgOutput += cardData.dmg;
-                    UpdateDMGCounters();
-                break;
+                switch(cardData.cardType)
+                {
+                    case Card.CardType.PHY:
+                        //ResolveDamageOutput here? or somewhere else?
+                        roundPhyDmgOutput += cardData.dmg;
+                        UpdateDMGCounters();
+                    break;
 
-                case Card.CardType.HACK:
-                    roundHackDmgOutput += cardData.dmg;
-                    UpdateDMGCounters();
-                break;
+                    case Card.CardType.HACK:
+                        roundHackDmgOutput += cardData.dmg;
+                        UpdateDMGCounters();
+                    break;
+                }
+
             }
-
-        }
-        if(cardData.applyEffect.Count != 0)
-        {
-            switch(cardData.applyEffect[0])
+            if(cardData.applyEffect.Count != 0)
             {
-                case Card.Effect.MELT:
+                for(int i = 0; i < cardData.applyEffect.Count; i++)
+                {
+                    switch(cardData.applyEffect[i])
+                    {
+                        case Card.Effect.MELT:
+                            currentEnemy.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.MELT);
+                            currentEnemy.GetComponent<UnitTracker>().activeEffectDuration.Add(cardData.effectSeverity[i]);
+                        break;
 
-                break;
+                        case Card.Effect.STUN:
 
-                case Card.Effect.STUN:
+                        break;
 
-                break;
+                        case Card.Effect.AAA:
+                            RoundEnergy += cardData.effectSeverity[i];
+                            //Maybe instantiate a particle system here that bursts a bunch of lightning and deactivates again?
+                        break;
 
-                case Card.Effect.AAA:
+                        case Card.Effect.SELFDESTRUCT:
+                            MainMech.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.SELFDESTRUCT);
+                        break;
 
-                break;
+                        case Card.Effect.RECURSIVE:
+                            int temp = currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1];
+                            currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[1] = currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2];
+                            currentEnemy.GetComponent<UnitTracker>().healthBarCurrentValues[2] = temp;
+                            //Play weird sound effect, Instantiate Particle system or cool camera overlay (Purple action lines on the sides of the screen with opacity fadeout?)
+                        break;
 
-                case Card.Effect.SELFDESTRUCT:
+                        case Card.Effect.NON:
+                        break;
 
-                break;
+                        case Card.Effect.DRAW:
+                            DrawRandomCard(cardData.effectSeverity[i]);
+                        break;
+                        
+                        case Card.Effect.DOUBLEDMG:
+                            roundHackDmgOutput = roundHackDmgOutput*2;
+                            roundPhyDmgOutput = roundPhyDmgOutput*2;
+                        break;    
 
-                case Card.Effect.RECURSIVE:
+                        case Card.Effect.DOUBLEDMGHACK:
+                            roundHackDmgOutput = roundHackDmgOutput*2;
+                        break;    
 
-                break;
+                        case Card.Effect.DOUBLEDMGPHY:
+                            roundPhyDmgOutput = roundPhyDmgOutput*2;
+                        break;  
 
-                case Card.Effect.NON:
-                break;
+                        case Card.Effect.SELFHARM:
+                            MainMech.GetComponent<UnitTracker>().healthBarCurrentValues[0] -= cardData.effectSeverity[i];
+                            MainMech.GetComponent<BattleHUD>().FullUpdateCheck();
+                            //special effects of damage
+                        break; 
 
-                case Card.Effect.DRAW:
-                    DrawRandomCard(cardData.effectSeverity[0]);
-                break;
-                
-                case Card.Effect.DOUBLEDMG:
+                        case Card.Effect.ENEMYSWITCH:
+                            switch(currentEnemy.GetComponent<UnitTracker>().activeHealthbar)
+                                {
+                                    case 0:
+                                        currentEnemy.GetComponent<UnitTracker>().activeHealthbar = 1;
+                                    break;
 
-                break;    
+                                    case 1:
+                                        currentEnemy.GetComponent<UnitTracker>().activeHealthbar = 0;
+                                    break;
+                                }
+                        break;
+
+                        case Card.Effect.SELFSWITCH:
+                            switch(MainMech.GetComponent<UnitTracker>().activeHealthbar)
+                            {
+                                case 0:
+                                    MainMech.GetComponent<UnitTracker>().activeHealthbar = 1;
+                                break;
+
+                                case 1:
+                                    MainMech.GetComponent<UnitTracker>().activeHealthbar = 0;
+                                break;
+                            }
+                        break;
+
+                        case Card.Effect.DRAWPHYIFSHIELD:
+                            MainMech.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.DRAWPHYIFSHIELD);
+                            MainMech.GetComponent<UnitTracker>().activeEffectDuration.Add(cardData.effectSeverity[i]);
+                        break;
+
+                        case Card.Effect.DRAWHACKIFPHY:
+                            MainMech.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.DRAWHACKIFPHY);
+                            MainMech.GetComponent<UnitTracker>().activeEffectDuration.Add(cardData.effectSeverity[i]);
+                        break;
+                    }
+                }
+                UpdateUIEffects();
             }
-        }
+        
+    }
+    public void UpdateUIEffects()
+    {
+        
     }
 }

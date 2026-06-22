@@ -65,7 +65,7 @@ public class BattleHUD : MonoBehaviour
 		UpdateHull(this.GetComponent<UnitTracker>().healthBarCurrentValues[0]);
 		UpdateArmor(this.GetComponent<UnitTracker>().healthBarCurrentValues[1]);
 		UpdateShield(this.GetComponent<UnitTracker>().healthBarCurrentValues[2]);
-		print("HP Current values" + this.GetComponent<UnitTracker>().healthBarCurrentValues[0] + " " + this.GetComponent<UnitTracker>().healthBarCurrentValues[1] + " " + this.GetComponent<UnitTracker>().healthBarCurrentValues[2]);
+		//print("HP Current values" + this.GetComponent<UnitTracker>().healthBarCurrentValues[0] + " " + this.GetComponent<UnitTracker>().healthBarCurrentValues[1] + " " + this.GetComponent<UnitTracker>().healthBarCurrentValues[2]);
 		//print(_targetA + _targetH + _targetS);
 	}
 

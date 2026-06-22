@@ -28,7 +28,6 @@ public class CardDisplayScript : MonoBehaviour
         _card = this.gameObject;
         UpdateCardName();
         _gameManager = GameObject.FindWithTag("GameManager");
-        print(_gameManager);
     }
 
     // Update is called once per frame
@@ -94,15 +93,5 @@ public class CardDisplayScript : MonoBehaviour
                 _card.transform.GetChild(5).GetComponent<TMP_Text>().color = Color.purple;
                 break;
         }
-    }
-
-    public void DiscardCard()
-    {
-        print("Discarding Card to discardpile");
-        _gameManager.GetComponent<GameManagerScript>().discardPile.Add(cardData);
-        _gameManager.GetComponent<GameManagerScript>().UpdateDrawDiscard();
-        _gameManager.GetComponent<GameManagerScript>().PlayCardEffect(cardData);
-        //_gameManager.GetComponent<GameManagerScript>().UpdateDMGCounters();
-        Destroy(this.gameObject);
     }
 }

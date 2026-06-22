@@ -10,6 +10,7 @@ public class UnitTracker : MonoBehaviour
     [SerializeField] 
     GameObject HealthBarField;
     public int activeHealthbar;
+    // 0 = ARMOR // 1 == SHIELD // Done this way to allow the possibility of extra active Healthbars
     private GameObject _gameManager;
     public List<Card.Effect> activeEffects;
     public List<int> activeEffectDuration;
