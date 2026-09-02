@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 149cf724c69bdd94f98780332448589a, type: 3}
-  m_Name: NerdRage
+  m_Name: ThermiteThrower
   m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
-  cardName: Nerd Rage
+  cardName: Thermite Thrower
   cardImage: {fileID: 0}
-  cardDescriptor: If Enemy ARMOR is Active, draw 2 HACK cards
+  cardDescriptor: Deal 20 Dmg, /n Inflict 3 MELT
   cardType: 0
-  cost: 0
-  dmg: 0
-  applyEffect: 
+  cost: 2
+  dmg: 20
+  applyEffect: 00000000
   damageType: 0
-  effectSeverity: 
+  effectSeverity: 03000000

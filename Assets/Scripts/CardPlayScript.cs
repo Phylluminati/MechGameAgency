@@ -28,9 +28,6 @@ public class CardPlayScript : MonoBehaviour
             if(_gameManager.GetComponent<GameManagerScript>().RoundEnergy >= cardData.cost)
             {
                 print("Discarding Card to discardpile");
-                _gameManager.GetComponent<GameManagerScript>().discardPile.Add(cardData);
-                _gameManager.GetComponent<GameManagerScript>().UpdateDrawDiscard();
-                _gameManager.GetComponent<GameManagerScript>().PlayCardEffect(cardData);
                 //_gameManager.GetComponent<GameManagerScript>().UpdateDMGCounters();
                 Destroy(this.gameObject);
                 _gameManager.GetComponent<GameManagerScript>().RoundEnergy -= cardData.cost;
@@ -38,6 +35,9 @@ public class CardPlayScript : MonoBehaviour
                 {
                     _gameManager.GetComponent<GameManagerScript>().RoundEnergy = 0;
                 }
+                _gameManager.GetComponent<GameManagerScript>().discardPile.Add(cardData);
+                _gameManager.GetComponent<GameManagerScript>().UpdateDrawDiscard();
+                _gameManager.GetComponent<GameManagerScript>().PlayCardEffect(cardData);
             }
             else
             {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CardRunner;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,11 @@ public class Unit : ScriptableObject
     public List<int> healthBarMaxValues;
     [SerializeField] Sprite personalSprite;
     [SerializeField] Sprite mechSprite;
+
+    public int maxDamage;
+    public int minDamage;
+
+    public Card.DamageType preferredDmgType;
 
     public enum HpType
     {

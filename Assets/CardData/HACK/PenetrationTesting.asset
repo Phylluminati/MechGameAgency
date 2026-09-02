@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
   cardName: Penetration Testing
   cardImage: {fileID: 0}
-  cardDescriptor: If the Enemy has SHIELD active, Draw 2 PHY Card
+  cardDescriptor: If the Enemy has ARMOR active, Draw 2 HACK Card
   cardType: 1
   cost: 0
   dmg: 0

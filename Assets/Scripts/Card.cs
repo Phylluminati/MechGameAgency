@@ -29,6 +29,7 @@ public class Card : ScriptableObject
     public enum Effect
         {
             MELT,
+            DRAIN,
             STUN,
             AAA,
             SELFDESTRUCT,
@@ -45,7 +46,8 @@ public class Card : ScriptableObject
             PILEDRIVER,
             ODAY,
             
-            NON
+            NON,
+            ENEMYATTACK
 
         }
     public enum DamageType
