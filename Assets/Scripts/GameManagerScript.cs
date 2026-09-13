@@ -57,6 +57,9 @@ public class GameManagerScript : MonoBehaviour
         _HACKDMGCounter = GameObject.Find("HACKDMGcounter");
         _PHYDMGCounter.SetActive(false);
         _HACKDMGCounter.SetActive(false);
+        gameCanvas = MainMechLocation.transform.root.gameObject;
+        PauseGameStartDialogue();
+        
     }
 
     public void AddCardToDeck(Card cardData)
@@ -350,6 +353,19 @@ public class GameManagerScript : MonoBehaviour
         // ---
         //New round begins after End of Round and Enemy turn
         NewRoundCheck();
+    }
+
+    GameObject gameCanvas;
+    void PauseGameStartDialogue()
+    {
+        gameCanvas.SetActive(false);
+    }
+
+    
+    void ContinueGameStopDialogue()
+    {
+        
+        gameCanvas.SetActive(true);
     }
 
     public void UpdateDMGCounters()
@@ -690,12 +706,15 @@ public class GameManagerScript : MonoBehaviour
 Card.DamageType currentAttackingType;
     void EnemyTurn()
     {
+        bool isAlreadyAttacking = false;
+        bool isAlreadySwitching = false;
         //four random values: Attack Dmg, Attack Type, turns till switch, turns till damage
         for (int i = 03; i < currentEnemy.GetComponent<UnitTracker>().activeEffects.Count; i++)
         {
             switch(currentEnemy.GetComponent<UnitTracker>().activeEffects[i])
             {
                 case Card.Effect.ENEMYATTACK:
+                    isAlreadyAttacking = true;
                     currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i] -= 1;
                     if(currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i] <= 0)
                     {
@@ -704,8 +723,14 @@ Card.DamageType currentAttackingType;
                     }
                 break;
                 case Card.Effect.ENEMYSWITCH:
+                    isAlreadySwitching = true;
 
                 break;
+            }
+            
+            if(isAlreadyAttacking == false)
+            {
+                
             }
         }
 
