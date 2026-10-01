@@ -15,6 +15,9 @@ public class Unit : ScriptableObject
     public int minDamage;
 
     public Card.DamageType preferredDmgType;
+    //Like preferredDmgType, but a value, normally the damage preference will be 50-50, -0-50 is PHY and 51-100+ is HACK, the offset gets added
+    //tldr -Value means +PHY, and +Value means +HACK
+    public int PreferenceOffset;
 
     public enum HpType
     {

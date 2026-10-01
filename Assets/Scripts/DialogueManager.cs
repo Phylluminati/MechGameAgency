@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     private bool fadeOut = false;
     private CanvasGroup ImageGroup;
+    private GameManagerScript GameManager;
 
 [YarnCommand("FadeIn")]
     public void FadeIn()
@@ -37,10 +39,23 @@ public class DialogueManager : MonoBehaviour
     {
         DialogueImage.GetComponent<UnityEngine.UI.Image>().sprite = null;
     }
+
+    public bool PlayerAttackCheck()
+    {
+        if(GameManager.roundHackDmgOutput + GameManager.roundPhyDmgOutput == 0) //Add Applied effects to this, either check if there are hostile effects on the enemy mech or check if they have been applied
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     
     void Awake()
     {
         ImageGroup = DialogueImage.GetComponent<CanvasGroup>();
+        GameManager = this.gameObject.GetComponent<GameManagerScript>();
         
     }
     void Start()

@@ -29,6 +29,8 @@ public class GameManagerScript : MonoBehaviour
     public List<Card> cardsPlayedThisTurn;
     public List<Card> drawPile;
     public List<Card> discardPile;
+
+    public List<Card> AllCardsInPlay;
     [SerializeField] GameObject CardEmpty;
     [SerializeField] TMP_Text DrawNumber;
     [SerializeField] TMP_Text DiscardNumber;
@@ -47,6 +49,7 @@ public class GameManagerScript : MonoBehaviour
 
 
     public GameObject cardPrefab;
+    [SerializeField] GameObject SelectNewCardPrefab;
     public int roundHackDmgOutput;
     public int roundPhyDmgOutput;
 
@@ -730,10 +733,56 @@ Card.DamageType currentAttackingType;
             
             if(isAlreadyAttacking == false)
             {
+                //if already attacking is false start new attack counter, randomise attack 2-4 turns away
+                currentEnemy.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.ENEMYATTACK);
+                currentEnemy.GetComponent<UnitTracker>().activeEffectDuration.Add(UnityEngine.Random.Range(2,4));
+                //determining the attacking Damage type giving both a flat 50-50 chance 
+                int rand = UnityEngine.Random.Range(1,100);
+                if(rand + currentEnemy.GetComponent<UnitTracker>().unitData.PreferenceOffset < 50)
+                {
+                    currentAttackingType = Card.DamageType.PHY;
+                }
+                else
+                {
+                    currentAttackingType = Card.DamageType.HACK;
+                }
                 
+            }
+            if(isAlreadySwitching == false)
+            {
+                //if already switching is false start new switch counter, randomise switch timer 1-3 turns away
+                switch(UnityEngine.Random.Range(1,3))
+                {
+                    case 1:
+                        //doesn't initiate a switch
+                    break;
+                    case 2:
+                        currentEnemy.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.ENEMYSWITCH);
+                        currentEnemy.GetComponent<UnitTracker>().activeEffectDuration.Add(UnityEngine.Random.Range(1,2));
+                    break;
+                    case 3:
+                        currentEnemy.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.ENEMYSWITCH);
+                        currentEnemy.GetComponent<UnitTracker>().activeEffectDuration.Add(UnityEngine.Random.Range(1,3));
+                    break;
+
+                }
             }
         }
 
+    }
+    [SerializeField] GameObject OutsideGameCanvas;
+    public void InstantiateCardSelection(int selectionNr, int choiceNr)
+    { 
+        if(selectionNr >= choiceNr)
+        {
+            GameObject tempPrefab = Instantiate(SelectNewCardPrefab, OutsideGameCanvas.transform);
+            tempPrefab.GetComponent<NewCardSelector>().cardAmount = selectionNr;
+            tempPrefab.GetComponent<NewCardSelector>().cardsToChoose = choiceNr;
+        }
+        else
+        {
+            print("ERROR: More choices than Cards available, Not Instatiating Card Selection like that");
+        }
     }
     void HealthbarSwitch(GameObject Mech)
     {

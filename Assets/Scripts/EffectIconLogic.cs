@@ -24,10 +24,12 @@ public class EffectIconLogic : MonoBehaviour
     Sprite PHYifHACKIcon;
     [SerializeField]
     GameObject IconPrefab;
-[SerializeField]
+    [SerializeField]
     Sprite drainSprite;
-    
-    
+    Sprite phyAttack;
+    Sprite hackAttack;
+    Sprite shieldSwitch;
+    Sprite armorSwitch;
     
     
     
@@ -36,6 +38,7 @@ public class EffectIconLogic : MonoBehaviour
     void Start()
     {
         //drainSprite = Resources.Load("DRAINSprite") as Sprite;
+        phyAttack = (Sprite)Resources.Load("Sprites/phyAttack");
         // transform.root.GetComponent<UnitTracker>();
     }
 
@@ -87,7 +90,13 @@ public class EffectIconLogic : MonoBehaviour
                         break;
 
                         case Card.Effect.ENEMYSWITCH:
+                        //TODO: Check EnemySwitchType and adjust Icon accordingly
                         
+                        break;
+
+                        case Card.Effect.ENEMYATTACK:
+                        //TODO: Check EnemyAttackType and adjust Icon accordingly
+                            tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = phyAttack;
                         break;
 
                         case Card.Effect.SELFDESTRUCT:
