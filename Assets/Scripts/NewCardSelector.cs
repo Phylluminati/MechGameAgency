@@ -14,12 +14,13 @@ public class NewCardSelector : MonoBehaviour
     public bool isRandom = true;
     private bool _initiationComplete = false;
     public TMPro.TMP_Text PickNumber;
+    public Card.CardType typeChoice = Card.CardType.NULL;
     public Button button;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManagerScript>();
-        InstantiateCardSelection(true);
+        InstantiateCardSelection();
     }
 
     // Update is called once per frame
@@ -46,6 +47,11 @@ public class NewCardSelector : MonoBehaviour
         gameManager.currentDeck.AddRange(pickedCards);
         Destroy(this.transform.parent.gameObject);
     }
+    public void skip()
+    {
+        gameManager.currentDeck.AddRange(pickedCards);
+        Destroy(this.transform.parent.gameObject);
+    }
     public void UpdateString()
     {
         PickNumber.text = cardsToChoose.ToString();
@@ -60,14 +66,32 @@ public class NewCardSelector : MonoBehaviour
         else
         {
             PickNumber.color = Color.red;
+            button.interactable = true ;
         }
             
     }
-    void InstantiateCardSelection(bool isRandom)
+    void InstantiateCardSelection()
     {
         UpdateString();
-        if(isRandom == false)
+        if(typeChoice != Card.CardType.NULL)
         {
+            for(int i = 0; i < cardAmount; i++)
+            {
+                
+                Card.CardType temp_card_data = Card.CardType.NULL;
+                Card temp_card = null;
+                while(temp_card_data != typeChoice)
+                {
+                    temp_card = gameManager.AllCardsInPlay[UnityEngine.Random.Range(0, (gameManager.AllCardsInPlay.Count-1))];
+                    temp_card_data = temp_card.cardType;
+                }
+                GameObject card = Instantiate(gameManager.GetComponent<GameManagerScript>().cardPrefab, this.transform);
+                card.transform.localScale = new Vector3 (0.75f, 0.75f, 1);
+                card.GetComponent<CardDisplayScript>().cardData = temp_card;
+                card.GetComponent<CardPlayScript>().cardData = temp_card;
+                card.GetComponent<CardPlayScript>().isCardPlayable = false;
+                card.GetComponent<CardPlayScript>().isCardPickable = true;
+            }
             /*GameObject card = Instantiate(gameManager.GetComponent<GameManagerScript>().cardPrefab, this.transform);
             card.transform.localScale = new Vector3 (0.5f, 0.5f, 1);
             card.GetComponent<CardDisplayScript>().cardData = gameManager.GetComponent<GameManagerScript>().currentDeck[i];
@@ -80,10 +104,10 @@ public class NewCardSelector : MonoBehaviour
             for(int i= 0; i < cardAmount; i++)
             {
                 GameObject card = Instantiate(gameManager.GetComponent<GameManagerScript>().cardPrefab, this.transform);
-                Card tempCardData = gameManager.AllCardsInPlay[UnityEngine.Random.Range(0, (gameManager.AllCardsInPlay.Count-1))];
+                Card temp_card_data = gameManager.AllCardsInPlay[UnityEngine.Random.Range(0, (gameManager.AllCardsInPlay.Count-1))];
                 card.transform.localScale = new Vector3 (0.75f, 0.75f, 1);
-                card.GetComponent<CardDisplayScript>().cardData = tempCardData;
-                card.GetComponent<CardPlayScript>().cardData = tempCardData;
+                card.GetComponent<CardDisplayScript>().cardData = temp_card_data;
+                card.GetComponent<CardPlayScript>().cardData = temp_card_data;
                 card.GetComponent<CardPlayScript>().isCardPlayable = false;
                 card.GetComponent<CardPlayScript>().isCardPickable = true;
             }

@@ -18,6 +18,6 @@ MonoBehaviour:
   cardType: 3
   cost: 2
   dmg: 0
-  applyEffect: 07000000
+  applyEffect: 09000000
   damageType: 0
-  effectSeverity: 
+  effectSeverity: 00000000

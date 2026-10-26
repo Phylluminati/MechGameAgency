@@ -16,3 +16,8 @@ MonoBehaviour:
   healthBarMaxValues: f4010000a00f000088130000
   personalSprite: {fileID: 0}
   mechSprite: {fileID: 0}
+  maxDamage: 1000
+  minDamage: 100
+  preferredDmgType: 0
+  PreferenceOffset: 0
+  VisualsPrefab: {fileID: 302434042518067291, guid: c7bef8e7e7dd9ee408e71764de880eac, type: 3}

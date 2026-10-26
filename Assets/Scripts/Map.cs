@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Numerics;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.UI;
 using Yarn;
 using Vector3 = UnityEngine.Vector3;
 
@@ -16,8 +18,7 @@ public class Map : MonoBehaviour
     GameObject Lines;
     [SerializeField]
     GameObject Visuals; 
-    [SerializeField]
-    Encounter LastRoom;
+    public Encounter LastRoom;
     [SerializeField]
     GameObject Rooms;
 
@@ -25,32 +26,35 @@ public class Map : MonoBehaviour
     GameObject MAP_ROOM_PREFAB;
     [SerializeField]
     GameObject MAP_LINE_PREFAB;
+    public float ScreenHeight;
 
     
     List<List<Encounter>> Map_Data = new List<List<Encounter>>();
     float camera_edge_y;
-    int scrollspeed = 10000;
+    float camera_edge_y_low;
+    public int scrollspeed = 7000;
     int floorsClimbed = 0;
     void Start()
     {
         StartUp();
+        camera_edge_y_low = Camera.transform.localPosition.y;
+        camera_edge_y = Camera.transform.localPosition.y + MapGenerator.Y_DIST * (Map_Data.Count - 1);
     }
     void Awake()
     {
         
     }
-    void StartUp()
+    public void StartUp()
     {
-        camera_edge_y = MapGenerator.Y_DIST * (Map_Data.Count - 1);
-
         GenerateNewMap();
+        Visuals.GetComponent<RectTransform>().sizeDelta = new UnityEngine.Vector2 (this.GetComponent<RectTransform>().sizeDelta.x, MapGenerator.Y_DIST * MapGenerator.FLOOR * ScreenHeight);
         UnlockFloor(0);
     }
     void Update()
     {
         if(Input.mouseScrollDelta.y != 0)
         {
-            Camera.transform.localPosition = new UnityEngine.Vector3 (Camera.transform.localPosition.x, Mathf.Clamp(Camera.transform.localPosition.y + Input.mouseScrollDelta.y * scrollspeed * Time.deltaTime, -camera_edge_y, camera_edge_y), Camera.transform.localPosition.z);
+            Camera.transform.localPosition = new UnityEngine.Vector3 (Camera.transform.localPosition.x, Mathf.Clamp(Camera.transform.localPosition.y + Input.mouseScrollDelta.y * scrollspeed * Time.deltaTime, camera_edge_y_low, camera_edge_y-700), Camera.transform.localPosition.z);
             
         }
         
@@ -79,7 +83,7 @@ public class Map : MonoBehaviour
         SpawnRoom(Map_Data[MapGenerator.FLOOR-1][middle]);
 
         var map_width_pixels = MapGenerator.X_DIST * (MapGenerator.WIDTH -1);
-        Visuals.transform.position = new Vector3((Camera.GetComponent<Camera>().rect.x - map_width_pixels) /2, Camera.GetComponent<Camera>().rect.y /2 ,Visuals.transform.position.z);
+        //Visuals.transform.position = new Vector3((Camera.GetComponent<Camera>().rect.x - map_width_pixels) /2, Camera.GetComponent<Camera>().rect.y /2 ,Visuals.transform.position.z);
         
     }
     void UnlockFloor(int whichfloor = 0)
@@ -91,19 +95,24 @@ public class Map : MonoBehaviour
             print("map_room.room.row: " + map_room.room.row);
             if(map_room.room.row == whichfloor)
             {
-                map_room.available = true;
+                map_room.SetAvailable(true);
             }
             
         }
     }
-    void UnlockNextRoom()
+
+    public void ActivateRoom()
+    {
+        
+    }
+    public void UnlockNextRoom()
     {
         for(int k = 0; k < Rooms.transform.childCount; k++)
         {
             MapRoom map_room = Rooms.transform.GetChild(k).GetComponent<MapRoom>();
             if(LastRoom.next_rooms.Contains(map_room.room))
             {
-                map_room.available = true;
+                map_room.SetAvailable(true);
             }
         }
     }
@@ -113,6 +122,7 @@ public class Map : MonoBehaviour
         GameObject new_room = Instantiate(MAP_ROOM_PREFAB, Rooms.transform);
         MapRoom new_map_room = new_room.GetComponent<MapRoom>();
         new_map_room.room = room;
+        new_map_room.SetRoom(room);
         new_room.transform.localPosition = new Vector3(new_map_room.room.position.X, new_map_room.room.position.Y, 0);
         //new_map_room.Selected.Connect()
         _connect_lines(room);
@@ -126,27 +136,58 @@ public class Map : MonoBehaviour
     {
         if(room.next_rooms.Count == 0)
         {
+            print("!!!!Next Rooms Empty Aborting!!!!");
             return;
         }
         for(int m = 0; m < room.next_rooms.Count; m++)
         {
             var new_map_line = Instantiate(MAP_LINE_PREFAB, Lines.transform);
+            float line_difference = room.next_rooms[m].position.X - room.position.X; // difference is either going to be around 0, positive(right room) or negative(left room)
+            float floor_difference = room.next_rooms[m].position.Y - room.position.Y; //should always be positive since next rooms should be ahead of current room
+            floor_difference = floor_difference/2;
+
+            if((int)line_difference > 100)
+            {
+                new_map_line.transform.eulerAngles = new Vector3(0, 0, -45);
+                new_map_line.transform.localPosition = new Vector3(room.position.X + (line_difference/2)- 60f, room.position.Y + floor_difference - 40.4f, 0);
+                new_map_line.transform.localScale = new Vector3(new_map_line.transform.localScale.x, new_map_line.transform.localScale.y*1.5f, new_map_line.transform.localScale.z);
+                //return;
+            }
+            else if((int)line_difference < -100)
+            {
+                new_map_line.transform.eulerAngles = new Vector3(0, 0, 45);
+                new_map_line.transform.localPosition = new Vector3(room.position.X + (line_difference/2) + 60f, room.position.Y + floor_difference - 40.4f, 0);
+                new_map_line.transform.localScale = new Vector3(new_map_line.transform.localScale.x, new_map_line.transform.localScale.y*1.5f, new_map_line.transform.localScale.z);
+                //return;
+            }
+            else
+            {
+                new_map_line.transform.localPosition = new Vector3(room.position.X, room.position.Y + floor_difference - 50, 0);
+            }
+            
+            //new Vector3 (room.next_rooms[m].position.X, room.next_rooms[m].position.Y, 0);
             //figure out how to make the line connect itself from node 1 room.position to node 2 room.next_rooms[m].position
             //new_map_line.transform.position = new Vector3();
         }
     }
-    void _on_map_room_selected(Encounter room)
+    public void _on_map_room_selected(Encounter room)
     {
        for(int k = 0; k < Rooms.transform.childCount; k++)
         {
             MapRoom map_room = Rooms.transform.GetChild(k).GetComponent<MapRoom>();
+            //print("Map Room: " + map_room);
             if(map_room.room.row == room.row)
             {
                 map_room.available = false; 
+                map_room.SetAvailable(false);
             }
             LastRoom = room;
             floorsClimbed += 1;
             //Events.map_exited.emit(room);
+
+            
+            UnlockNextRoom();
+
         }
     }
 }

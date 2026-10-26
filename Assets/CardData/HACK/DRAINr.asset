@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
   cardName: Drainr
   cardImage: {fileID: 0}
-  cardDescriptor: 
+  cardDescriptor: inflict 3 Drainr
   cardType: 1
   cost: 1
   dmg: 0

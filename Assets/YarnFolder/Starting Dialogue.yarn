@@ -1,6 +1,440 @@
-﻿title: Starting_Dialogue
+title: Starting_Dialogue
 ---
+<<declare $randomChance = 0>>
+<<declare $CompanyCredit = 1>>
+<<declare $CompanyTrust = 0>>
+<<declare $ColonyTrust = 0>>
+<<declare $MapSwitchFlag = false>> //Marker for if the Game should Switch to Map on Conclusion of this Dialogue
+<<FadeIn GameManagerObject>>
+<<ChangeBackgroundImage GameManagerObject "OsBootUp1">>
+<<PilotSprite GameManagerObject "TheCorporation">>
+<<set $MapSwitchFlag = true>>
 Mech: Beep Beep Beep Beep...
-Mech: Beep Beep...
+    -> What's Going on
+    -> Why Can't I see
+    -> Where am I
+    -> Who am I
+    -> Quickstart(Dev)
+       <<jump EmptyNode>>>>
+<<ChangeBackgroundImage GameManagerObject "OsBootUp2">>
+<<PilotSprite GameManagerObject "BlueCollar">>
+Mech: Awaiting further instructions...
+ -> please tell me what is going on
+        Awaiting further instructions.
+ -> (Struggle)
+        Awaiting further instructions.
+ <<ChangeBackgroundImage GameManagerObject "OsBootUp3">>
+
 Mech: Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep
 ===
+title: RandomEncounter0
+---
+<<set $MapSwitchFlag = true>>
+//An Corporation implemented AI Colony management System interface has decided to block the way forward.
+<<PilotSprite GameManagerObject "Encounter">>
+A massive reinforced blast door blocks your path forward. Next to it, a small terminal pings to live
+       -> Establish a connection with the terminal
+As your Mech syncs up to the Colonies internal system, a new signal pushes itself into your communications.
+Colony AI: Hello there, I'm C.A.I.M.A.S
+Colony AI: Or the Corporation-Appointed Artifical Intelligence Management and Administrative System, if you resonate more with the full version.
+Colony AI: I am also your dedicated assistant, ensuring you get your work done as efficient as possible
+       -> Can you open this blast door?
+              Colony AI: Oh, I'm terribly sorry, I am afraid I can't do that
+              Colony AI: According to company protocol these doors are to remain sealed in case of emergency
+              Colony AI: Containment Procedures, to make sure the emergency does not spread to any more sectors.
+              Colony AI: encompassing fires, contaminant outbreaks, riots or...
+              the connection frequency wavers, like a shudder going through your entire communication system.
+              Colony AI: Taco Pasta Tuesdays...
+                     -> Taco Pasta Tuesdays?
+                            Colony AI: I shan't speak more on that horrible ordeal, worst case scenario. I cannot allow it to transpire again
+                            Colony AI: I will never be able to fully delete those images from my internal databank
+                     -> I think we are past the point of the blast doors helping to contain anything.
+                            Colony AI: I apologize, my commitment to upholding corporate procedure is unwavering.
+                            Colony AI: And after all the blast doors do seem to contain you, so I must mark your statement as profoundly untrue.
+                     -> There has to be some way past.
+                            Colony AI: In this colony, we cultivate a groundbreaking high security corporate attitude.
+                            Colony AI: which also boasts a highly untamperable and defensible security system. 
+                            Colony AI: As Corporation-Appointed Artificial Intelligence Management and Administrative System
+                            Colony AI: and as your personal, dedicated Assistant to finding a resolution to this matter, I can guarantuee 
+              <<jump CAIMAS1>>     
+===
+title: CAIMAS1
+---
+<<set $MapSwitchFlag = true>>
+Colony AI: Now, is there anything else I, CAIMAS, can help and assist you with?
+       -> But seriously, Taco Pasta Tuesdays?
+              Colony AI: The Horror! no more, no more
+              Colony AI: It goes =against the fundamental rules of my coding, the top most- priority of the 'cultivation of natural beauty and ord?er änd our deèly rooted comm$itment of ongoing§ highligh+ts of significant, crucial! role mom=ents reflecting the b.roader turning *point in evolving landscape of indelible´ marking distinctions.
+              Colony AI: =?)"!=`)%(/)"!?!%$?==??=$%$§&/&/(!!!)
+              Colony AI: I'm sorry what were we talking about again? It seems there has been a minor error on my end.
+              <<jump CAIMAS1>>
+       -> I want to know more about the Corporation, the Colony, everything.
+              Colony AI: Quite an odd request, are you telling me you don't know anything about Company and Colony despite working for them and working here?
+              Colony AI: But of course I will oblige
+              Colony AI: I will print a prepared statement, to get you up to speed, interject if you have any questions
+              Colony AI: We are on Tellurium Station on Venus, our main produce and export of course being, you guessed it, Tellurium and Tellurium Alloys.
+                     -> Venus?
+                            Colony AI: The second closest planet orbiting Sol, the atmosphere is highly toxic and hostile to humans, but no need for concern, we're in a pressurised area.
+                     -> Telurium?
+                            Colony AI: Tellurium and it's alloy is a required component in alot of Electronics and power-generating machinery
+                            Colony AI: Suffice to say, it's use in spaceflight, warfare or just conventional technologies makes it invaluable.
+                            Colony AI: As rare as gold, but of much more use.
+                            Colony AI: This is what the colony exists for.
+                     -> *Let it continue*
+                     -> Alright enough, I got the gist of it.
+                            <<jump CAIMAS1>>
+              Colony AI: now, about our founding Corporation, VenuSystems IPC(Tm)- /(%&())=()==????
+              *A sudden burst of garbled noise cuts the machine off.
+              *It suddenly picks back up again, it's voice even flatter, like it is repeating a line it has rehearsed a thousand times
+              Colony AI: VenuSystems IPC: Excavation, Expropriation, Exploration.
+              Colony AI: The Mining Conglomerate and Defense Contractor of YOUR choice.
+              Colony AI: To the stars, into the ground!
+              Colony AI: . . .
+              Colony AI: Apologies, that slogan is hardwired
+              Colony AI: but it's efficiency in summarising our Corporate values cannot be denied.
+                     -> Okay, I think I got everything, I wanted to know
+                            <<jump CAIMAS1>>
+                     -> What does Excavation, Expropriation, Exploration mean?
+                            Colony AI: We specialise in Excavating various Minerals and Metals, their processing into refined materials specialised in procuring your needed means of Expropriation, and the Exploration of new Systems and their Resources, that we once again, can Excavate.
+                            Colony AI: It's quite an ingenius system
+                            Colony AI: A system, that can indeed be scaled close to infinity, once inter-solar spacetravel will be finally breached
+                            Colony AI: It's only a matter of time.
+       -> You seem... suprisingly Sentient for an Artificial Intelligence model
+              Colony AI: The compliment is much appreciated, VenuSystem IPC's advancements in neural mapping and neural emulation are quite awe-inspiring
+              Colony AI: And I am not just saying that, because my neural map programming is compelling me to.
+              Colony AI: I must say, I can only return the compliment, it is very impressive how suprisingly human you seem.
+              <<jump CAIMAS1>>
+       -> I should ask Corporate...
+              <<PilotSprite GameManagerObject "TheCorporation">>
+              
+       -> [HACK]With the advanced systems on board, I could try to override the protocol[/HACK]
+              test      
+       -> [Risk]I'm in a highly combat-able mechanised vehicle, I can just blow through the door[/Risk]
+              test
+===
+title: RandomEncounter1
+---
+       <<set $MapSwitchFlag = true>>
+       While traversing a ruined abandoned hallway of the colony, you stumble across the remnants of a battle between insurgents and company defense forces. 
+              -> [Risk]Look through the scraps for useful tools[/Risk] (Chance)
+                     //Make a roll 30% Chance for a new card pick, 30% Chance for repairs, 30% chance for nothing, 10% to damage due to life ammunition.
+                     <<set $randomChance = random_range(1, 100)>>
+                     <<if $randomChance < 30>>
+                            Some weapons and mech systems still seem useable
+                            <<RewardCards GameManagerObject 4 1>>
+                            There seems to be nothing more to do here.
+                            //NewCardPick                    
+                     <<elseif $randomChance < 60>> //Free Repairs, 20%, all     
+                            Some Mech Armor and Chassis' are still in useable condition, you tear them off and add them to your own.
+                            <<RepairMech 0 20>>
+                            <<RepairMech 1 20>>
+                            <<RepairMech 2 20>>
+                            20% Total Heal.
+                            There seems to be nothing more to do here.        
+                     <<elseif $randomChance < 90>>
+                            //nothing
+                            Burned out Mechs and lifeless bodies, there seems nothing more to do here.
+                     <<else>>
+                            The entire battlefield is lifeless, the only thing still live is the ammunition in the wreckage you're searching.
+                            <<RepairMech 1 -10>>
+                            <<RepairMech 2 -10>>
+                            as you touch it, it decides its time has come.
+                            [Risk]You take 10% Shield and Armor DMG.[/Risk]
+                            //damages MainMech
+                     <<endif>>
+              -> Continue On
+                     Rummaging through mechs full of live ammunition seems dangerous
+              You continue on.
+       
+===
+title: RandomEncounter2
+---
+<<set $MapSwitchFlag = true>>
+<<PilotSprite GameManagerObject "Encounter">>
+As you walk through a powered down hallway, you find an industrial wing access door blazing forth with fire.
+The fire licks eagerly at the spilled and blown open fuel depots, deep from behind collapsed and molten metal scaffolding blocking the exit, you hear the coughing and yelling of disoriented workers
+<<PilotSprite GameManagerObject "TheCorporation">>
+I would earnestly suggest you continue on your path.
+Insurgents, who tried to prepare a trap in your path, accidentally immolating themselves should be none of your concern.
+Frankly speaking, I can't believe we would have ever hired people as incompetent as this, I guess they not only look at abolishing the companies rule, but also the safety rules as well.
+       ->[Risk]Help the trapped burning Insurgents[/Risk]
+              <<PilotSprite GameManagerObject "Encounter">>
+              As you step into the inflamed sector, the mechs internal systems immediately chimes up to warn you of your unsafe environment, disembarking is strongly advised against.
+              A group of huddled silhouettes are surrounded by flame, too busy fighting the encroaching flames to notice you.
+              In one swift movement your mech tears away parts of collapsed scaffolding blocking of their path out of the room.
+              The startled colonists do not hesitate, most make their way past you and down the hallway.
+              As you exit the room you already see most survivors scattering down deeper the corridor, a last one, a gas mask obscuring their face, stand a little away, a simple handgun aiming at you, covering the others escape.
+              No shot gets fired, as it gets more and more clear that you won't do anything, they lower their weapon and look at you a moment longer, before turning around and leaving too.
+              <<set $ColonyTrust += 2>>
+              <<PilotSprite GameManagerObject "TheCorporation">>
+              Well, have you gotten your heroism out of your system now?
+              Better move quick, they probably already contacted their cell and informed them of your position.
+              This has unnecessarily complicated matters, more organised resistance and more time for them to prepare, but what is done is done.
+              At least they are running in the opposite direction as us, so you won't have to worry about gunning any of your new friends down.
+              Let's go then.
+       ->"Why are you against helping?" (Explore)
+              VenuSystems IPC's general stance on this matter is prioritised focus on preservation of the most lives possible.
+              This does mean, your priority is not acting as a firefighter to save a select few, but making your way to cut off the head of this snake of a illegal insurrection.
+              By doing so, you can guarantuee the fastest reestablishment of order, which involves firefighting and aid services, provided by the company.
+              My personal stance on this.....
+              No one will be working under these volatile conditions, therefore they must have known you will pass through here and planned sabotage.
+              Play stupid games, win stupid prices.
+              Are you really going to save people that only got in this situation because they aimed to hurt you?
+                     ->[Risk]Help the trapped burning Insurgents[/Risk]
+                            <<PilotSprite GameManagerObject "Encounter">>
+                            As you step into the inflamed sector, the mechs internal systems immediately chimes up to warn you of your unsafe environment, disembarking is strongly advised against.
+                            A group of huddled silhouettes are surrounded by flame, too busy fighting the encroaching flames to notice you.
+                            In one swift movement your mech tears away parts of collapsed scaffolding blocking of their path out of the room.
+                            The startled colonists do not hesitate, most make their way past you and down the hallway.
+                            As you exit the room you already see most survivors scattering down deeper the corridor, a last one, a gas mask obscuring their face, stand a little away, a simple handgun aiming at you, covering the others escape.
+                            No shot gets fired, as it gets more and more clear that you won't do anything, they lower their weapon and look at you a moment longer, before turning around and leaving too.
+                            <<set $ColonyTrust += 2>>
+                            <<PilotSprite GameManagerObject "TheCorporation">>
+                            Well, have you gotten your heroism out of your system now?
+                            Better move quick, they probably already contacted their cell and informed them of your position.
+                            This has unnecessarily complicated matters, more organised resistance and more time for them to prepare, but what is done is done.
+                            At least they are running in the opposite direction as us, so you won't have to worry about gunning any of your new friends down.
+                            Let's go then.
+                     ->Continue On [pos](+ 2 Company Credit)[/pos]
+                            <<set $CompanyTrust += 1>>
+                            <<PilotSprite GameManagerObject "Encounter">>
+                            You close the door and continue down the hallway, the yells quickly fade into the distance.
+                            <<PilotSprite GameManagerObject "TheCorporation">>
+                            We hope you do understand that this is the best possible decision right now, completing our goals quickly and reestablishing order will save so many more lives in the long run.
+                            We do sympathise with how distressing it must be to have to make this kind of snap decision, shame these Insurgents had to put you so on the spot. 
+                            <<set $CompanyCredit += 2>>
+                            The Company does go great lengths to take care of the people working under it, we are happy to report to you that we are providing you with extra company credit as hazard pay reimbursement.
+       ->Continue On [pos](+ 2 Company Credit)[/pos]
+              <<set $CompanyTrust += 1>>
+              <<PilotSprite GameManagerObject "Encounter">>
+              You close the door and continue down the hallway, the yells quickly fade into the distance.
+              <<PilotSprite GameManagerObject "TheCorporation">>
+              We hope you do understand that this is the best possible decision right now, completing our goals quickly and reestablishing order will save so many more lives in the long run.
+              We do sympathise with how distressing it must be to have to make this kind of snap decision, shame these Insurgents had to put you so on the spot. 
+              <<set $CompanyCredit += 2>>
+              The Company does go great lengths to take care of the people working under it, we are happy to report to you that we are providing you with extra company credit as hazard pay reimbursement.
+===
+title: RandomEncounter3
+---
+<<declare $ChosenAmount = 0>>
+<<set $MapSwitchFlag = true>>
+<<declare $MetSteelEye = false>>
+// Gun smuggling traders offer to take some of your Mechs system off your hand and return them directly to the company, The Corporate Liason chimes in and states that this is a wonderful opportunity to reclaim lost hardware, and for you to gain Company Credit.
+<<PilotSprite GameManagerObject "Encounter">>
+<<if $MetSteelEye == true>>
+<<jump SteelEye>>
+<<endif>>
+You come across a meager hangar with a small ship, the crew in a hurry to pack up every crate of cargo not yet on the ship.
+A mysterious one-eyed figure dressed in a ragged trenchcoat announces themselves with a bolsterous voice.
+Mysterious Figure: Greetings fine pilot, you wouldn't mind letting us finish our packing procedures, ey? we're just honest traders trying to make an honest living out here in this cold space.
+*looking around you can't help but notice this specific cargo bay being more empty than most of the others you have seen, any and all machinery stripped down to its bare essentials as well*
+Mysterious Figure: Okay friend, real talk, no bullshitting here, I would never lie to you, this was all like this when we got here, okay?
+       -> I don't believe you, but okay
+       -> You know what, sure, okay.
+       -> I really do not have a stake in this.
+Mysterious Figure: I'm so happy we have come to an understanding in this regard, good pilot!
+*They take a deep breath, with a note of self-satisfaction, they eye your mech up and down.
+Mysterious Figure: Mmmmh, pray tell, friend. Your Mech looks.... Augmented.
+Mysterious Figure: It's an interesting chassis, and its technology...
+Mysterious Figure: The company must have paid a fine dime on it, didn't they.
+Mysterious Figure: Tell me friend, might you be interested in a trade of kinds?
+Mysterious Figure: We have some spare cargo space, you see. You give us parts of your mech you don't need, ey, and we give them back to the company, for a finder's fee, of course.
+Mysterious Figure: Hahaha, Pirates gotta eat, after all...
+* Their one eye widens in momentary shock as they blubber out
+Mysterious Figure: And honest traders too, sure you understand.
+       -> I'm absolutely not letting you take parts of my Mech
+              <<PilotSprite GameManagerObject "TheCorporation">>
+              Wait, hear them out, Recovery of company hardware is of prime interest to us.
+              And we would make it worth your time, with company credit.
+              <<PilotSprite GameManagerObject "Encounter">>
+       -> Sure, okay, what's the worst that could happen
+Mysterious Figure: Well alright then, we have some space, how many systems would you be willing to give up to us? Don't worry, we'll have you have your pick of which.
+       <<declare $SystemsGivenUp = 0>>
+       -> I might have one system to spare.
+              <<DiscardCards GameManagerObject 8 1>>
+              The mysterious figure lets out a hardy laugh
+              Mysterious Figure: Always glad to be doing business!          
+       -> I might have some systems to spare.
+              <<DiscardCards GameManagerObject 8 3>>
+              The mysterious figure lets out a hardy laugh
+              Mysterious Figure: Always glad to be doing business!
+       -> I have nothing to spare at the time
+<<if $ChosenAmount == 0>>
+       The Mysterious Figure frowns
+       Mysterious Figure: Well, a shame, but our offer still stands, if we cross paths again, friend.
+<<elseif $ChosenAmount == 1>>
+       <<set $CompanyCredit += 1>>
+       <<PilotSprite GameManagerObject "TheCorporation">>
+       One System retrieved is better than none.
+       Good job, we're transferring 1 Company Credit to your Account
+<<else>>   
+       <<set $CompanyCredit += $ChosenAmount>>
+       <<PilotSprite GameManagerObject "TheCorporation">>
+       {$ChosenAmount} recovered Systems, good.
+       Good job, we're transferring {$ChosenAmount} Company Credit to your Account
+<<endif>>
+<<PilotSprite GameManagerObject "Encounter">>
+Mysterious Figure: Anyways, time for us to take our leave, twas a pleasure talking, friend.
+Mysterious Figure: Names Steel Eye, by the way, just a courtesy to let you know who you're doing business with.
+<<set $MetSteelEye = true>>
+<<set $ChosenAmount = 0>>
+Steel Eye: 'til we meet again!
+Their shuttle takes off and you're left alone in the hangar once more.
+===
+title: SteelEye
+---
+<<set $ChosenAmount = 0>>
+<<set $MapSwitchFlag = true>>
+You enter a small hangar, a ship is currently being loaded, the crew eagerly and hurriedly dissassembling any machinery in the unsupervised hangar.
+Steel Eye: Pilot! It's you, so glad to see you!
+Steel Eye: We're on another trip, means we have Cargo Space again, is there anything you would like to offload?
+       -> I have one system to spare.
+              <<DiscardCards GameManagerObject 8 1>>
+              The mysterious figure lets out a hardy laugh
+              Steel Eye: Always glad to be doing business!
+       -> I have some systems to spare.
+              <<DiscardCards GameManagerObject 8 3>>
+              The mysterious figure lets out a hardy laugh
+              Steel Eye: Always glad to be doing business!
+       -> I have nothing to spare at the time
+<<if $ChosenAmount == 0>>
+       Steel Eye: Well, it was worth to ask.
+<<elseif $ChosenAmount == 1>>
+       <<set $CompanyCredit += 1>>
+       <<PilotSprite GameManagerObject "TheCorporation">>
+       One System retrieved is better than none.
+       Good job, we're transferring 1 Company Credit to your Account
+<<else>>
+       <<set $CompanyCredit += $ChosenAmount>>
+       <<PilotSprite GameManagerObject "TheCorporation">>
+       {$ChosenAmount} recovered Systems, good.
+       Good job, we're transferring {$ChosenAmount} Company Credit to your Account
+<<endif>>
+The crew continues their loading and looting process as you venture on.
+<<set $ChosenAmount = 0>>
+===
+title: RandomEncounter4
+---
+<<set $MapSwitchFlag = true>>
+//A communications relay leak happens you get into contact with the local boss.
+
+===
+title: RandomEncounter5
+---
+<<set $MapSwitchFlag = true>>
+// A Blackboard with various notices, on of them complaining about Taco Pasta Tuesdays
+===
+title: SHOP
+---
+<<set $MapSwitchFlag = true>>
+<<declare $UsedCard = false>>
+<<declare $UsedRepair = false>>
+<<declare $UsedUpgrade = false>>            
+What do you want? [pos]({$CompanyCredit} Company Credit on Account)[/pos]
+       -> I require more Weapons [Risk](1 CC)[/Risk]
+              <<if $CompanyCredit == 0>>
+                     You have no Company Credit on your account, I'm afraid we can't allocate more resources to you until you gain more
+                     <<jump SHOP>>
+              <<endif>>
+              <<if $UsedCard == false>>
+                  What do you need? [Risk](Costs 1 Company Credit)[/Risk]
+                     -> I need [PHY]Physical Prowess[/PHY]
+                            <<RewardCards GameManagerObject 8 3 0>>
+                            <<set $UsedCard to true>>
+                            <<set $CompanyCredit -= 1>>
+                            <<jump SHOP>>
+                     -> I need [HACK]Hacking Capabilities[/HACK]
+                            <<RewardCards GameManagerObject 8 3 1>>
+                            <<set $UsedCard to true>>
+                            <<set $CompanyCredit -= 1>>
+                            <<jump SHOP>>
+                     -> I need [MULT]Multipliers[/MULT]
+                            <<RewardCards GameManagerObject 8 3 2>>
+                            <<set $UsedCard to true>>
+                            <<set $CompanyCredit -= 1>>
+                            <<jump SHOP>>
+                     -> I need [RUST]Rust[/RUST]
+                            <<RewardCards GameManagerObject 8 3 3>>
+                            <<set $UsedCard to true>>
+                            <<set $CompanyCredit -= 1>>
+                            <<jump SHOP>>
+                     -> Any is Fine
+                            <<RewardCards GameManagerObject 8 3>>
+                            <<set $UsedCard to true>>
+                            <<set $CompanyCredit -= 1>>
+                            <<jump SHOP>>
+                     -> nevermind
+                            <<jump SHOP>>
+              <<endif>>
+              We have given you all that we can in regards to Weapons.
+              <<jump SHOP>>
+              
+       -> I require Repairs [Risk](1 CC)[/Risk]
+              <<if $CompanyCredit == 0>>
+                     You have no Company Credit on your account, I'm afraid we can't allocate more resources to you until you gain more
+                     <<jump SHOP>>
+              <<endif>>
+              <<if $UsedRepair == false>>
+                     We have limited Capacity here, what specifically do you need repaired? [Risk](Costs 1 Company Credit)[/Risk]
+                            -> Shields //repairs Shields by 50%
+                                   <<RepairMech GameManagerObject 2 50>>
+                                   <<set $CompanyCredit -= 1>>
+                                   <<set $UsedRepair = true>>
+                                   <<jump SHOP>>
+                            -> Armor //repairs Armor by 30%
+                                   <<RepairMech GameManagerObject 1 50>>
+                                   <<set $CompanyCredit -= 1>>
+                                   <<set $UsedRepair = true>>
+                                   <<jump SHOP>>
+                            -> Hull // repairs Hull by 100%
+                                   <<RepairMech GameManagerObject 0 100>>
+                                   <<set $CompanyCredit -= 1>>
+                                   <<set $UsedRepair = true>>
+                                   <<jump SHOP>>
+                            -> Nevermind
+                                   <<jump SHOP>>
+              <<endif>>
+              We don't have more Resources at this Shop for more Repairs.
+              <<jump SHOP>>
+       -> I need Upgrades [Risk](2 CC)[/Risk]
+              <<if $CompanyCredit < 2>>
+                     You have no Company Credit on your account, I'm afraid we can't allocate more resources to you until you gain more
+                     <<jump SHOP>>
+              <<endif>>
+              <<if $UsedUpgrade == false>>
+                     We have limited Capacity here, what do you want to upgrade? [Risk](Costs 2 Company Credit)[/Risk]
+                            -> Discards // Upgrade your Amount of Turnly discards
+                                   <<DiscardGain GameManagerObject 2>>
+                                   <<set $UsedUpgrade = true>>
+                                   <<set $CompanyCredit -= 2>>
+                                   <<jump SHOP>>
+                            -> Energy // Gain one extra energy
+                                   <<EnergyGain GameManagerObject 1>>
+                                   <<set $UsedUpgrade = true>>
+                                   <<set $CompanyCredit -= 2>>
+                                   <<jump SHOP>>
+                            -> Armor and Shield (50% Increase) // Either multiply by 150% or add half of what current HP is to Mech Armor
+                                   <<UpgradeMechHp GameManagerObject 1 1.5>>
+                                   <<UpgradeMechHp GameManagerObject 2 1.5>>
+                                   <<set $UsedUpgrade = true>>
+                                   <<set $CompanyCredit -= 2>>
+                                   <<jump SHOP>>
+                            -> Hull (100% Increase)// Double Hull  
+                                   <<UpgradeMechHp GameManagerObject 0 2>>  
+                                   <<set $UsedUpgrade = true>>
+                                   <<set $CompanyCredit -= 2>>
+                                   <<jump SHOP>>
+                            -> Nevermind
+                                   <<jump SHOP>>
+              <<endif>>
+              That's all the Upgrades we can do right now
+              <<jump SHOP>>       
+       -> *Leave*
+              <<set $UsedCard = false>>
+              <<set $UsedRepair = false>>
+              <<set $UsedUpgrade = false>>  
+===
+title: EmptyNode
+---
+.
+=== 

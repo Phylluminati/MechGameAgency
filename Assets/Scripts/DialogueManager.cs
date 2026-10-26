@@ -1,5 +1,7 @@
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using CardRunner;
 using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,31 +15,50 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     GameObject DialogueImage;
     [SerializeField]
-    private bool fadeIn = false;
+    UnityEngine.UI.Image PilotSprite;
     [SerializeField]
-    private bool fadeOut = false;
+    private bool fadeIn = false;
+    private bool fadedone = false;
     private CanvasGroup ImageGroup;
     private GameManagerScript GameManager;
+    [SerializeField]
+    Run run;
+    [SerializeField]
+    GameObject CardPickPrefab;
+    [SerializeField]
+    GameObject CardDiscardPrefab;
+    [SerializeField] GameObject dialoguerunner;
+    
 
 [YarnCommand("FadeIn")]
     public void FadeIn()
-    {
+    {   
+        DialogueImage.SetActive(true);
+        ClearBackgroundImage(); 
         fadeIn = true;
+        fadedone = false;
     }
 [YarnCommand("FadeOut")]
     public void FadeOut()
     {
-        fadeOut = true;
+        DialogueImage.SetActive(true);
+        ClearBackgroundImage();
+        fadeIn = false;
+        fadedone = false;
     }
 [YarnCommand("ChangeBackgroundImage")]
-    public void ChangeBackgroundImage(Sprite sprite)
+    public void ChangeBackgroundImage(string spritename)
     {
+        Sprite sprite = Resources.Load<Sprite>("DialogueSprite/"+ spritename) as Sprite;
+        print("sprite");
         DialogueImage.GetComponent<UnityEngine.UI.Image>().sprite = sprite;
+        DialogueImage.GetComponent<UnityEngine.UI.Image>().color = Color.white;
     }
     [YarnCommand("ClearBackgroundImage")]
     public void ClearBackgroundImage()
     {
         DialogueImage.GetComponent<UnityEngine.UI.Image>().sprite = null;
+        DialogueImage.GetComponent<UnityEngine.UI.Image>().color = Color.black;
     }
 
     public bool PlayerAttackCheck()
@@ -51,16 +72,66 @@ public class DialogueManager : MonoBehaviour
             return false;
         }
     }
+    [YarnCommand("PilotSprite")]
+    public void ChangePilotSprite(string pilotstring)
+    {
+        if(pilotstring == null)
+        {
+            print("Pilotstring is null, resetting and turning black");
+            PilotSprite.sprite = null;
+            PilotSprite.color = Color.black;
+        }
+        else
+        {
+            PilotSprite.color = Color.white;
+        }
+        Sprite sprite = Resources.Load<Sprite>("PilotSprites/"+ pilotstring) as Sprite;
+        PilotSprite.sprite = sprite;
+    }
     
     void Awake()
     {
         ImageGroup = DialogueImage.GetComponent<CanvasGroup>();
         GameManager = this.gameObject.GetComponent<GameManagerScript>();
+        gameCanvas = GameManager.MainMechLocation.transform.parent.gameObject;
+        OutOfGameCanvas = GameObject.Find("OutsideGameCanvas");
         
     }
     void Start()
     {
         
+    }
+    [YarnCommand("RewardCards")]
+    public void RewardCards(int card_amount, int cards_to_choose, int card_type = 10000)
+    {
+        GameObject temp_card_pick = Instantiate(CardPickPrefab, OutOfGameCanvas.transform);
+        if(card_type < 500)
+        {
+            Card.CardType temp_type = (Card.CardType)card_type;
+            temp_card_pick.GetComponentInChildren<NewCardSelector>().typeChoice = temp_type;
+        }
+        temp_card_pick.GetComponentInChildren<NewCardSelector>().cardsToChoose = cards_to_choose;
+        temp_card_pick.GetComponentInChildren<NewCardSelector>().cardAmount = card_amount;
+    }
+    [YarnCommand("DiscardCards")]
+    public void DiscardCards(int card_amount, int cards_to_choose)
+    {       
+        if(GameManager.currentDeck.Count > card_amount)
+        {
+            GameObject temp_card_pick = Instantiate(CardDiscardPrefab, OutOfGameCanvas.transform);
+            temp_card_pick.GetComponentInChildren<NewCardSelector>().cardsToChoose = cards_to_choose;
+            temp_card_pick.GetComponentInChildren<NewCardSelector>().cardAmount = card_amount;
+            dialoguerunner.GetComponentInChildren<Canvas>().sortingOrder = 0;
+        }
+        else
+        {
+            Debug.LogWarning("ERROR WITH CARD DISCARD, NOT ENOUGH CARDS IN DECK TO MAKE A FULL DISCARD");
+            return;
+        }
+    }
+    public void ResetDialogueCanvas()
+    {
+        dialoguerunner.GetComponentInChildren<Canvas>().sortingOrder = 30;
     }
     /*public void FadeIn()
     {
@@ -96,27 +167,61 @@ public class DialogueManager : MonoBehaviour
     */
     void Update()
     {
-        if(fadeIn)
+        if(fadedone == false)
         {
-            if(ImageGroup.alpha < 1)
+            if(fadeIn == true)
             {
-                ImageGroup.alpha += Time.deltaTime;
-                if(ImageGroup.alpha >= 1)
+                if(ImageGroup.alpha < 1)
                 {
-                    fadeIn = false;
+                    ImageGroup.alpha += 2 * Time.deltaTime;
+                    if(ImageGroup.alpha >= 255)
+                    {
+                        fadedone = true;
+                        
+                    }
+                }
+            }
+            else
+            {
+                if(ImageGroup.alpha > 0)
+                {
+                    ImageGroup.alpha -= 2 * Time.deltaTime;
+                    if(ImageGroup.alpha == 0)
+                    {
+                        fadedone = true;
+                        DialogueImage.SetActive(false);
+                    }
                 }
             }
         }
-        if(fadeOut)
+        
+    }
+    GameObject OutOfGameCanvas;
+    GameObject gameCanvas;
+    public void PauseGameStartDialogue()
+    {
+        gameCanvas.SetActive(false);
+        dialoguerunner.GetComponentInChildren<Canvas>().sortingOrder = 30;
+    }
+
+    
+    public void ContinueGameStopDialogue()
+    {
+        dialoguerunner.GetComponentInChildren<Canvas>().sortingOrder = 0;
+        gameCanvas.SetActive(true);
+        dialoguerunner.GetComponent<InMemoryVariableStorage>().TryGetValue<bool>("$MapSwitchFlag", out bool MapSwitchFlag);
+        if(MapSwitchFlag == true)
         {
-            if(ImageGroup.alpha > 0)
-            {
-                ImageGroup.alpha -= Time.deltaTime;
-                if(ImageGroup.alpha == 0)
-                {
-                    fadeOut = false;
-                }
-            }
+            dialoguerunner.GetComponent<InMemoryVariableStorage>().SetValue("$MapSwitchFlag", false);
+            run.SwitchScene(0);
         }
+    }
+
+    public void RewardCredit(float coinAmount)
+    {
+        float CompanyCredit;
+        dialoguerunner.GetComponent<InMemoryVariableStorage>().TryGetValue<float>("$CompanyCredit", out CompanyCredit);
+        print("Company Credit before adjustment: " + CompanyCredit);
+        dialoguerunner.GetComponent<InMemoryVariableStorage>().SetValue("$CompanyCredit", CompanyCredit + coinAmount);
     }
 }

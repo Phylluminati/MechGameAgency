@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: ReactorMeltdownProtocol
   m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
   cardName: Reactor Meltdown Protocol
-  cardImage: {fileID: 21300000, guid: 3db0b83100563cf44ae5ed2c02059467, type: 3}
+  cardImage: {fileID: 21300000, guid: 319fa2c7824fc204baaad8bdda23835b, type: 3}
   cardDescriptor: Gain limitless EN, LOSE THE GAME at the beginning of your next
     turn
   cardType: 2
   cost: 0
   dmg: 0
-  applyEffect: 0300000004000000
+  applyEffect: 0300000006000000
   damageType: 0
   effectSeverity: 1027000001000000

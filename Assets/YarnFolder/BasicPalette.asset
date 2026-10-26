@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 992e2b513670a4d089c2e58d4c48e8c8, type: 3}
+  m_Name: BasicPalette
+  m_EditorClassIdentifier: YarnSpinner.Unity::Yarn.Unity.MarkupPalette
+  BasicMarkers:
+  - Marker: RUST
+    CustomColor: 1
+    Color: {r: 1, g: 0, b: 1, a: 1}
+    Boldened: 1
+    Italicised: 1
+    Underlined: 0
+    Strikedthrough: 0
+  - Marker: PHY
+    CustomColor: 1
+    Color: {r: 1, g: 0, b: 0, a: 1}
+    Boldened: 1
+    Italicised: 1
+    Underlined: 0
+    Strikedthrough: 0
+  - Marker: HACK
+    CustomColor: 1
+    Color: {r: 0, g: 1, b: 0, a: 1}
+    Boldened: 1
+    Italicised: 1
+    Underlined: 0
+    Strikedthrough: 0
+  - Marker: MULT
+    CustomColor: 1
+    Color: {r: 0, g: 0, b: 0, a: 1}
+    Boldened: 1
+    Italicised: 1
+    Underlined: 0
+    Strikedthrough: 0
+  - Marker: Risk
+    CustomColor: 1
+    Color: {r: 0.8584906, g: 0.83215207, b: 0.3523051, a: 1}
+    Boldened: 0
+    Italicised: 0
+    Underlined: 0
+    Strikedthrough: 0
+  - Marker: pos
+    CustomColor: 1
+    Color: {r: 0.4284955, g: 0.8584906, b: 0.40899786, a: 0.5803922}
+    Boldened: 0
+    Italicised: 0
+    Underlined: 0
+    Strikedthrough: 0
+  - Marker: neg
+    CustomColor: 1
+    Color: {r: 0.85882354, g: 0.4078431, b: 0.42432, a: 0.5803922}
+    Boldened: 0
+    Italicised: 0
+    Underlined: 0
+    Strikedthrough: 0
+  CustomMarkers: []

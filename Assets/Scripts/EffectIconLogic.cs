@@ -26,10 +26,11 @@ public class EffectIconLogic : MonoBehaviour
     GameObject IconPrefab;
     [SerializeField]
     Sprite drainSprite;
-    Sprite phyAttack;
-    Sprite hackAttack;
-    Sprite shieldSwitch;
-    Sprite armorSwitch;
+    [SerializeField] Sprite phyAttack;
+    [SerializeField] Sprite hackAttack;
+    [SerializeField] Sprite shieldSwitch;
+    [SerializeField] Sprite armorSwitch;
+    UnitTracker TrackedUnit;
     
     
     
@@ -37,9 +38,17 @@ public class EffectIconLogic : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //shieldSwitch = Resources.Load("Sprites/ShieldSwitchSprite") as Sprite;
+        //armorSwitch = Resources.Load("Sprites/ArmorSwitchSprite") as Sprite;
         //drainSprite = Resources.Load("DRAINSprite") as Sprite;
-        phyAttack = (Sprite)Resources.Load("Sprites/phyAttack");
+        /*phyAttack = (Sprite)Resources.Load("Sprites/PhyAttack");
+        hackAttack =(Sprite)Resources.Load("Sprites/HackAttack");
+        if(hackAttack == null)
+        {
+            Debug.LogError("No Hack Sprite");
+        }*/
         // transform.root.GetComponent<UnitTracker>();
+        TrackedUnit = transform.parent.parent.GetComponent<UnitTracker>();
     }
 
     // Update is called once per frame
@@ -51,10 +60,10 @@ public class EffectIconLogic : MonoBehaviour
     GameObject tempIcon;
     public void UpdateIcons()
     {
-        if(transform.root.GetComponent<UnitTracker>().activeEffects.Count != 0)
+        if(TrackedUnit.activeEffects.Count != 0)
             {
 
-                for(int i = 0; i < transform.root.GetComponent<UnitTracker>().activeEffects.Count; i++)
+                for(int i = 0; i < transform.parent.parent.GetComponent<UnitTracker>().activeEffects.Count; i++)
                 {
                     print("ChildCount: " + this.transform.childCount);
                     if(this.transform.childCount <= i)
@@ -66,14 +75,14 @@ public class EffectIconLogic : MonoBehaviour
                             tempIcon = this.transform.GetChild(i).gameObject;
                         }
 
-                    switch(transform.root.GetComponent<UnitTracker>().activeEffects[i])
+                    switch(transform.parent.parent.GetComponent<UnitTracker>().activeEffects[i])
                     {
                         
                         case Card.Effect.MELT:
 
                             //isTickDownEffect[i] = true;
                             tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = meltIcon;
-                            tempIcon.GetComponentInChildren<TMP_Text>().text = transform.root.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
+                            tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
                             tempIcon.GetComponentInChildren<TMP_Text>().color = Color.red;
                             
                         break;
@@ -81,7 +90,7 @@ public class EffectIconLogic : MonoBehaviour
 
                         case Card.Effect.DRAIN:
                             tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = drainSprite;
-                            tempIcon.GetComponentInChildren<TMP_Text>().text = transform.root.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
+                            tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
                             tempIcon.GetComponentInChildren<TMP_Text>().color = Color.blue;
                         break;
 
@@ -91,14 +100,45 @@ public class EffectIconLogic : MonoBehaviour
 
                         case Card.Effect.ENEMYSWITCH:
                         //TODO: Check EnemySwitchType and adjust Icon accordingly
-                        
+                            if(TrackedUnit.activeHealthbar == 0)
+                            {
+                                tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = shieldSwitch;
+                                tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
+                                tempIcon.GetComponentInChildren<TMP_Text>().color = Color.blue;
+                            }
+                        else
+                            {
+                                tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = armorSwitch;
+                                    tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
+                                    tempIcon.GetComponentInChildren<TMP_Text>().color = Color.red;
+                            }
                         break;
 
                         case Card.Effect.ENEMYATTACK:
+                            if(TrackedUnit.isAttackPhy)
+                            {
+                                tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = phyAttack;
+                                tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
+                                tempIcon.GetComponentInChildren<TMP_Text>().color = Color.red;
+                            }
+                            else
+                            {
+                                tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = hackAttack;
+                                tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
+                                tempIcon.GetComponentInChildren<TMP_Text>().color = Color.green;
+                            }
                         //TODO: Check EnemyAttackType and adjust Icon accordingly
-                            tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = phyAttack;
                         break;
-
+                        case Card.Effect.PILEDRIVER:
+                                tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = null;
+                                tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
+                                tempIcon.GetComponentInChildren<TMP_Text>().color = Color.red;                  
+                        break;
+                        case Card.Effect.ODAY:
+                                tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = null;
+                                tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
+                                tempIcon.GetComponentInChildren<TMP_Text>().color = Color.green;
+                        break;
                         case Card.Effect.SELFDESTRUCT:
                             tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = selfDestructIcon;
                             tempIcon.GetComponentInChildren<TMP_Text>().text = " ";
@@ -109,10 +149,10 @@ public class EffectIconLogic : MonoBehaviour
                             Destroy(tempIcon);
                         break;
                     }
-                    //this.transform.GetChild(i).GetComponentInChildren<TMP_Text>().text = transform.root.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
-                    print("Effect Duration: " + transform.root.GetComponent<UnitTracker>().activeEffectDuration[i]);
-                    //if(0 >= transform.root.GetComponent<UnitTracker>().activeEffectDuration[i])
-                    if(i >= transform.root.GetComponent<UnitTracker>().activeEffectDuration.Count)
+                    //this.transform.GetChild(i).GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
+                    print("Effect Duration: " + transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i]);
+                    //if(0 >= transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i])
+                    if(i >= transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration.Count)
                         {
                             print("Empty destroying ICON");
                             Destroy(this.transform.GetChild(i).gameObject);
@@ -124,11 +164,11 @@ public class EffectIconLogic : MonoBehaviour
                 
             }
 
-            print(transform.root.gameObject.name + "'s Children: " + this.transform.childCount);
+            //print(transform.parent.parent.gameObject.name + "'s Children: " + this.transform.childCount);
 
             for(int i = 0; i <= this.transform.childCount; i++)
                 {
-                    if(transform.root.GetComponent<UnitTracker>().activeEffects.Count < i)
+                    if(transform.parent.parent.GetComponent<UnitTracker>().activeEffects.Count < i)
                         {
                             print("Empty destroying ICON: " + i);
                             Destroy(this.transform.GetChild(i-1).gameObject);

@@ -21,18 +21,23 @@ public class MapRoom : MonoBehaviour
     Sprite EnemySprite;
     [SerializeField]
     Sprite BossSprite;
+    [SerializeField]
+    Sprite CardSprite;
     public GameObject Selected;
     public Encounter room;
+    [SerializeField]
     Animator animator;
     [SerializeField]
     Image line2D;
+    [SerializeField]
+    Run run;
     public bool available = false;
 
     // Start is called one before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        animator = this.GetComponent<Animator>();
-        
+        //animator = this.GetComponent<Animator>();
+        run = GameObject.Find("SceneSwitcher").GetComponent<Run>();
     }
 
     // Update is called once per frame
@@ -40,7 +45,7 @@ public class MapRoom : MonoBehaviour
     {
         
     }
-    void SetRoom(Encounter new_data)
+    public void SetRoom(Encounter new_data)
     {
         room = new_data;
         this.transform.localPosition = new Vector3(room.position.X, room.position.Y, 0);
@@ -48,23 +53,27 @@ public class MapRoom : MonoBehaviour
         {
             case Encounter.Type.ENCOUNTER:
                 this.GetComponentInChildren<Image>().sprite = EncounterSprite;
-                Sprite2D.transform.localScale = new Vector3(0.6f, 0.6f, 1);
+                Sprite2D.transform.localScale = new Vector3(0.8f, 0.8f, 1);
             break;
 
             case Encounter.Type.ENEMY:
-                this.GetComponent<Image>().sprite = EnemySprite;
+                this.GetComponentInChildren<Image>().sprite = EnemySprite;
                 Sprite2D.transform.localScale = Vector3.one;
             break;
 
             case Encounter.Type.SHOP:
-                this.GetComponent<Image>().sprite = ShopSprite;
+                this.GetComponentInChildren<Image>().sprite = ShopSprite;
                 Sprite2D.transform.localScale = new Vector3(0.6f, 0.6f, 1);
             break;
 
             case Encounter.Type.BOSS:
-                this.GetComponent<Image>().sprite = BossSprite;
-                Sprite2D.transform.localScale = new Vector3(1.25f, 1.25f, 1);
+                this.GetComponentInChildren<Image>().sprite = BossSprite;
+                Sprite2D.transform.localScale = new Vector3(2.5f, 2.5f, 1);
             break;
+            case Encounter.Type.CARDS:
+                this.GetComponentInChildren<Image>().sprite = CardSprite;
+                Sprite2D.transform.localScale = new Vector3(0.6f, 0.6f, 1);
+            return;
         }
         /*for(int m = 0; m < Map_Data[i][j].next_rooms.Count; m++)
         {
@@ -97,27 +106,40 @@ public class MapRoom : MonoBehaviour
         if(available)
         {
             //animation trigger here
-            animator.SetBool(0,true);
+            animator.SetBool("Available",true);
         }
         else if(room.selected)
         {
+            animator.SetBool("Available",false);
             //play animation trigger here for the room you're in.
-            animator.SetBool(0,false);
+            //animator.SetBool(0,false);
+            Sprite2D.transform.GetChild(0).GetComponent<Image>().color = Color.green;
+        }
+        if(!available)
+        {
+            animator.SetBool("Available",false);
         }
     }
-   void OnInput()
+   public void OnInput()
     {
         if(!available)
         {
             return;
         }
         room.selected = true;
+        SetAvailable(false);
+        this.transform.root.GetChild(0).GetComponent<Map>()._on_map_room_selected(room);
+        run.InitiateRoom(room);
         //play select animation here
         
     }
     public void ShowSelected()
     {
-        line2D.color = Color.green;
+        if(available)
+        {
+            line2D.color = Color.green;
+        }
+        
     }
 
 }

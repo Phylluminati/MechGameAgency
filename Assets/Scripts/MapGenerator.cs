@@ -18,9 +18,11 @@ public class MapGenerator : MonoBehaviour
     public int FLOOR = 10;
     public int WIDTH = 7;
     int PATHS = 6;
-    float ENEMY_ROOM_WEIGHT = 10f;
-    float SHOP_ROOM_WEIGHT = 2.5f;
-    float ENCOUNTER_ROOM_WEIGHT = 4.0f;
+    float ENEMY_ROOM_WEIGHT = 7f;
+    float SHOP_ROOM_WEIGHT = 3f;
+    float ENCOUNTER_ROOM_WEIGHT = 6.0f;
+
+    float CARD_ROOM_WEIGHT = 3f;
 
     //public Encounter.Type[][] MAP = new Encounter.Type[8][];
     public List<List<Encounter>> Map_Data;
@@ -53,15 +55,21 @@ public class MapGenerator : MonoBehaviour
         } 
         
         */
-        
+        int current_j = 0;
         for(int j= 0; j < startingPoints.Count; j++)
         {
-            int current_j = j;
+            
+
+            print("Current J is: " + current_j + " ; J normally is: " + j);
             for(int i = 0; i < FLOOR - 1; i++)
             {
                 current_j = SetupConnections(i, current_j);
                 
-            }            
+            }   
+            
+            SetUpBossRoom();
+            SetUpRandomRoom();
+            SetUpRoomTypes();         
         }  
         /*var m = 0; 
         for(int i = 0; i < Map_Data.Count; i++)
@@ -69,10 +77,6 @@ public class MapGenerator : MonoBehaviour
             print($" {Map_Data[i]} : ");
             print(Map_Data[i][m].next_rooms);
         } */
-
-        SetUpBossRoom();
-        SetUpRandomRoom();
-        SetUpRoomTypes();
         return Map_Data;
     }
     List<int> GetRandomStartingPoint()
@@ -123,7 +127,7 @@ public class MapGenerator : MonoBehaviour
                 Encounter current_room = ScriptableObject.CreateInstance<Encounter>();
                 Vector2 offset;
                 offset = new Vector2(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f)) * PLACEMENT_RANDOMNESS;
-                current_room.position = new Vector2(j * X_DIST, i * -Y_DIST) + offset;
+                current_room.position = new Vector2(j * X_DIST, i * Y_DIST) + offset;
                 current_room.row = i;
                 current_room.column = j;
                 print(j);
@@ -148,7 +152,7 @@ public class MapGenerator : MonoBehaviour
         //print(WouldCrossExistingPath(i, j, next_room));
         while(next_room == null | WouldCrossExistingPath(i, j, next_room))
         {
-            int random_j = Mathf.Clamp(UnityEngine.Random.Range(j-1, j+1),0, WIDTH-1);
+            int random_j = Mathf.Clamp(UnityEngine.Random.Range(j-1, j+2),0, WIDTH-1);
             next_room = Map_Data[i + 1][random_j];
             //print("Next Room: " + next_room);
         }
@@ -177,7 +181,7 @@ public class MapGenerator : MonoBehaviour
             for(int m = 0; m < rightNeighbour.next_rooms.Count; m++)
             {
                 
-                if(rightNeighbour.next_rooms[i].column < room.column)
+                if(rightNeighbour.next_rooms[m].column < room.column)
                 {
                     return true;
                 }
@@ -203,7 +207,7 @@ public class MapGenerator : MonoBehaviour
         for(int j=0; j< WIDTH; j++)
         {
             Encounter current_room = Map_Data[FLOOR-2][j];
-            if(current_room.next_rooms != null)
+            if(current_room.next_rooms.Count > 0)
             {
                 current_room.next_rooms.Clear();
                 current_room.next_rooms.Add(boss_room);
@@ -231,7 +235,6 @@ public class MapGenerator : MonoBehaviour
             if(Map_Data[3][i].next_rooms.Count() > 0)
             {
                 Map_Data[3][i].type = Encounter.Type.CARDS;
-
             }
         }
         for(int i=0;i< Map_Data[FLOOR-2].Count; i++)
@@ -260,23 +263,27 @@ public class MapGenerator : MonoBehaviour
     {
         bool shop_below = true;
         bool consecutive_shop = true;
-        bool consecutive_encounter = true;
+        bool consecutive_Cards = true;
         bool shop_on_final = true;
+        bool CardsOnThree = true;
 
         Encounter.Type type_candidate = Encounter.Type.NOT_ASSIGNED;
-        while(shop_below | consecutive_shop | consecutive_encounter | shop_on_final)
+        while(shop_below | consecutive_shop | consecutive_Cards | shop_on_final | CardsOnThree)
         {
             type_candidate = GetRandomRoomTypeByWeight();
+            print("Type Candidate =  " + type_candidate);
 
             bool is_shop = (type_candidate == Encounter.Type.SHOP);
             bool has_shop_parent = RoomHasParentOfType(room, Encounter.Type.SHOP);
-            bool is_encounter = type_candidate == Encounter.Type.ENCOUNTER;
-            bool has_encounter_parent= RoomHasParentOfType(room, Encounter.Type.ENCOUNTER);
+            bool is_cards = (type_candidate == Encounter.Type.CARDS);
+            bool has_cards_parent= RoomHasParentOfType(room, Encounter.Type.CARDS);
 
-            shop_below = is_shop && room.row < 3;
+            shop_below = is_shop && room.row < 2;
             consecutive_shop = is_shop && has_shop_parent;
-            consecutive_encounter = is_encounter && has_encounter_parent;
+            consecutive_Cards = is_cards && has_cards_parent;
             shop_on_final = is_shop && room.row == FLOOR-3;
+            CardsOnThree = is_cards && room.row == 2;
+
 
         }
         if(type_candidate == Encounter.Type.NOT_ASSIGNED) {print("ERROR inSetUpRandomly Function, Room's Type Candidate has returned as NOT_ASSIGNED");}
@@ -285,7 +292,7 @@ public class MapGenerator : MonoBehaviour
     bool RoomHasParentOfType(Encounter room, Encounter.Type type)
     {
         List<Encounter> parents = new List<Encounter>();
-        if (room.column >0 && room.row >0)
+        if (room.column > 0 && room.row > 0)
         {
             Encounter parent_candidate = Map_Data[room.row-1][room.column-1];
             if (parent_candidate.next_rooms.Contains(room))
@@ -311,7 +318,7 @@ public class MapGenerator : MonoBehaviour
         }
         for(int i=0; i < parents.Count; i++)
         {
-            if (parents[i].type == room.type)
+            if (parents[i].type == type)
             {
                 return true;
             }
@@ -321,14 +328,19 @@ public class MapGenerator : MonoBehaviour
     }
     Encounter.Type GetRandomRoomTypeByWeight()
     {
-        float fullWeight = ENEMY_ROOM_WEIGHT + SHOP_ROOM_WEIGHT + ENCOUNTER_ROOM_WEIGHT;
-        float halfWeight = ENEMY_ROOM_WEIGHT + SHOP_ROOM_WEIGHT;
-        float roll= UnityEngine.Random.Range( 0.0f, fullWeight);
+        float fullWeight = ENEMY_ROOM_WEIGHT + SHOP_ROOM_WEIGHT + ENCOUNTER_ROOM_WEIGHT+CARD_ROOM_WEIGHT;
+        float halfWeight = ENEMY_ROOM_WEIGHT + SHOP_ROOM_WEIGHT + CARD_ROOM_WEIGHT;
+        float minor_weight = ENEMY_ROOM_WEIGHT + CARD_ROOM_WEIGHT;
+        float roll= UnityEngine.Random.Range(0.0f, fullWeight);
 
         if(roll < ENEMY_ROOM_WEIGHT)
         {
             //ENEMYROOM
             return Encounter.Type.ENEMY;
+        }
+        else if(roll < minor_weight)
+        {
+            return Encounter.Type.CARDS;
         }
         else if(roll < halfWeight)
         {

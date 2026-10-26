@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
   cardName: Fast Fracture
   cardImage: {fileID: 0}
-  cardDescriptor: Deal 10 Dmg, Draw a Card
+  cardDescriptor: Deal 10 PHYsical Damage
   cardType: 0
-  cost: 1
-  dmg: 0
-  applyEffect: 08000000
+  cost: 0
+  dmg: 10
+  applyEffect: 
   damageType: 0
   effectSeverity: 

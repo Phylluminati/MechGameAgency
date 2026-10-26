@@ -32,6 +32,8 @@ public class Card : ScriptableObject
             DRAIN,
             STUN,
             AAA,
+            DISCARDTOENERGY,
+            ENERGYTODISCARD,
             SELFDESTRUCT,
             RECURSIVE,
             SELFSWITCH,
@@ -45,7 +47,7 @@ public class Card : ScriptableObject
             DRAWHACKIFPHY,
             PILEDRIVER,
             ODAY,
-            
+            PURGE,
             NON,
             ENEMYATTACK
 
