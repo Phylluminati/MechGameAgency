@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Numerics;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
-using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn;
@@ -86,7 +85,7 @@ public class Map : MonoBehaviour
         //Visuals.transform.position = new Vector3((Camera.GetComponent<Camera>().rect.x - map_width_pixels) /2, Camera.GetComponent<Camera>().rect.y /2 ,Visuals.transform.position.z);
         
     }
-    void UnlockFloor(int whichfloor = 0)
+    public void UnlockFloor(int whichfloor = 0)
     {
         for(int k = 0; k < Rooms.transform.childCount; k++)
         {

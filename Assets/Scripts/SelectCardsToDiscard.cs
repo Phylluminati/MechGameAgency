@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CardRunner;
 using NUnit.Framework;
@@ -20,10 +21,14 @@ public class SelectCardsToDiscard : MonoBehaviour
     public Card.CardType typeChoice = Card.CardType.NULL;
     public Button button;
     public float ChosenAmount = 0;
+    DialogueManager dialogue;
     void Start()
     {
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManagerScript>();
+        dialogue = gameManager.gameObject.GetComponent<DialogueManager>();
+        memory = GameObject.Find("Dialogue System").GetComponent<InMemoryVariableStorage>();
         InstantiateCardSelection(); 
+        
     }
 
   void Update()
@@ -122,6 +127,7 @@ void InstantiateCardSelection()
             }
         //}
     }
+    InMemoryVariableStorage memory;
     public void RemoveSelectionFromDeck()
     {
         bool is_found = false;
@@ -141,10 +147,9 @@ void InstantiateCardSelection()
             }
             is_found = false;
         }
-        InMemoryVariableStorage memory = this.transform.root.GetComponentInChildren<InMemoryVariableStorage>();
         memory.SetValue("$ChosenAmount", ChosenAmount);
         gameManager.gameObject.GetComponent<DialogueManager>().ResetDialogueCanvas();
-        
+        dialogue.ResetDialogueCanvas();
         Destroy(this.transform.parent.gameObject);
     }
 }

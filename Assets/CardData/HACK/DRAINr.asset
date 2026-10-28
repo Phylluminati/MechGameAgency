@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
   cardName: Drainr
   cardImage: {fileID: 0}
-  cardDescriptor: inflict 3 Drainr
+  cardDescriptor: inflict 3 Drainr (does 40 HACK Damage per stack each round, ignores
+    Armor)
   cardType: 1
   cost: 1
   dmg: 0

@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: MainMech
   m_EditorClassIdentifier: Assembly-CSharp::Unit
   healthBarType: 000000000100000002000000
-  healthBarMaxValues: d00700001027000010270000
+  healthBarMaxValues: d00700008813000088130000
   personalSprite: {fileID: 0}
   mechSprite: {fileID: 0}
+  maxDamage: 0
+  minDamage: 0
+  preferredDmgType: 0
+  PreferenceOffset: 0
+  VisualsPrefab: {fileID: 0}

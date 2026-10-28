@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
   cardName: Branded Cycle
   cardImage: {fileID: 0}
-  cardDescriptor: Switch your opponents
+  cardDescriptor: Switch your opponents active Defense (Armor and Shield)
   cardType: 3
   cost: 2
   dmg: 0

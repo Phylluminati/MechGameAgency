@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Grunt
   m_EditorClassIdentifier: Assembly-CSharp::Unit
   healthBarType: 000000000100000002000000
-  healthBarMaxValues: f4010000a00f000088130000
+  healthBarMaxValues: d0070000c8000000c8000000
   personalSprite: {fileID: 0}
   mechSprite: {fileID: 0}
   maxDamage: 1000

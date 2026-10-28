@@ -2,7 +2,6 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using CardRunner;
-using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,6 +11,7 @@ using Yarn.Unity;
 
 public class DialogueManager : MonoBehaviour
 {
+    public int RoundsSinceAttackingBoss = 0;
     [SerializeField]
     GameObject DialogueImage;
     [SerializeField]
@@ -28,6 +28,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     GameObject CardDiscardPrefab;
     [SerializeField] GameObject dialoguerunner;
+    [SerializeField] GameObject MissionCompletePanel;
     
 
 [YarnCommand("FadeIn")]
@@ -103,8 +104,9 @@ public class DialogueManager : MonoBehaviour
     }
     [YarnCommand("RewardCards")]
     public void RewardCards(int card_amount, int cards_to_choose, int card_type = 10000)
-    {
+    { //card_type = 0 is PHY, 1 is HACK, 2 is MULT, 3 is RUST, 4 is NULL
         GameObject temp_card_pick = Instantiate(CardPickPrefab, OutOfGameCanvas.transform);
+        dialoguerunner.GetComponentInChildren<Canvas>().sortingOrder = 20;
         if(card_type < 500)
         {
             Card.CardType temp_type = (Card.CardType)card_type;
@@ -116,6 +118,7 @@ public class DialogueManager : MonoBehaviour
     [YarnCommand("DiscardCards")]
     public void DiscardCards(int card_amount, int cards_to_choose)
     {       
+        dialoguerunner.GetComponentInChildren<Canvas>().sortingOrder = 20;
         if(GameManager.currentDeck.Count > card_amount)
         {
             GameObject temp_card_pick = Instantiate(CardDiscardPrefab, OutOfGameCanvas.transform);
@@ -223,5 +226,21 @@ public class DialogueManager : MonoBehaviour
         dialoguerunner.GetComponent<InMemoryVariableStorage>().TryGetValue<float>("$CompanyCredit", out CompanyCredit);
         print("Company Credit before adjustment: " + CompanyCredit);
         dialoguerunner.GetComponent<InMemoryVariableStorage>().SetValue("$CompanyCredit", CompanyCredit + coinAmount);
+    }
+
+    public void StartDialogue(string SceneName)
+    {
+        dialoguerunner.GetComponent<DialogueRunner>().StartDialogue(SceneName);
+    }
+    public bool CheckTalkingFlag()
+    {
+        bool keepstalking;
+        dialoguerunner.GetComponent<InMemoryVariableStorage>().TryGetValue<bool>("$keepstalking", out keepstalking);
+       return keepstalking;
+    }
+    [YarnCommand("MissionComplete")]
+    public void MissionComplete()
+    {
+        
     }
 }

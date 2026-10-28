@@ -1,11 +1,8 @@
 using UnityEngine;
 using CardRunner;
-using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using TMPro;
 using UnityEngine.UI;
-using UnityEditor.ShaderGraph;
-using Mono.Cecil;
 public class EffectIconLogic : MonoBehaviour
 {
     public bool isPlayerEffect = false; 

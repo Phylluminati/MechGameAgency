@@ -2,12 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using CardRunner;
-using JetBrains.Annotations;
-using Microsoft.Unity.VisualStudio.Editor;
 using NUnit.Framework.Interfaces;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.UI;
 

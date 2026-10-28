@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
   cardName: Thermite Thrower
   cardImage: {fileID: 21300000, guid: 4b9406625f0bef5429d0ec3afcd01b2a, type: 3}
-  cardDescriptor: Deal 20 Dmg, /n Inflict 3 MELT
+  cardDescriptor: Deal 40 Dmg, and Inflict 3 MELT (Deal 40 Damage per stack each
+    turn, ignores SHIELD)
   cardType: 0
   cost: 2
-  dmg: 20
+  dmg: 40
   applyEffect: 00000000
-  damageType: 0
+  damageType: 1
   effectSeverity: 03000000

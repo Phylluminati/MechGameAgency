@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
   cardName: Protective Cycling
   cardImage: {fileID: 0}
-  cardDescriptor: Switch between your two active Healthbars
+  cardDescriptor: Switch between your two active Healthbars (Shield and Armor)
   cardType: 4
   cost: 1
   dmg: 0

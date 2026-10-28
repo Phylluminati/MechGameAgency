@@ -16,10 +16,12 @@ public class NewCardSelector : MonoBehaviour
     public TMPro.TMP_Text PickNumber;
     public Card.CardType typeChoice = Card.CardType.NULL;
     public Button button;
+    DialogueManager dialogue;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManagerScript>();
+        dialogue = gameManager.gameObject.GetComponent<DialogueManager>();
         InstantiateCardSelection();
     }
 
@@ -45,11 +47,13 @@ public class NewCardSelector : MonoBehaviour
     public void AddSelectionToDeck()
     {
         gameManager.currentDeck.AddRange(pickedCards);
+        dialogue.ResetDialogueCanvas();
         Destroy(this.transform.parent.gameObject);
     }
     public void skip()
     {
         gameManager.currentDeck.AddRange(pickedCards);
+        dialogue.ResetDialogueCanvas();
         Destroy(this.transform.parent.gameObject);
     }
     public void UpdateString()
@@ -80,11 +84,13 @@ public class NewCardSelector : MonoBehaviour
                 
                 Card.CardType temp_card_data = Card.CardType.NULL;
                 Card temp_card = null;
-                while(temp_card_data != typeChoice)
+                Card previous_card = null;
+                while(temp_card_data != typeChoice && previous_card != temp_card)
                 {
-                    temp_card = gameManager.AllCardsInPlay[UnityEngine.Random.Range(0, (gameManager.AllCardsInPlay.Count-1))];
+                    temp_card = gameManager.AllCardsInPlay[UnityEngine.Random.Range(0, (gameManager.AllCardsInPlay.Count))];
                     temp_card_data = temp_card.cardType;
                 }
+                previous_card = temp_card;
                 GameObject card = Instantiate(gameManager.GetComponent<GameManagerScript>().cardPrefab, this.transform);
                 card.transform.localScale = new Vector3 (0.75f, 0.75f, 1);
                 card.GetComponent<CardDisplayScript>().cardData = temp_card;

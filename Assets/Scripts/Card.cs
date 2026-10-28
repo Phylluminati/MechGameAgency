@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 using CardRunner;
@@ -49,7 +48,9 @@ public class Card : ScriptableObject
             ODAY,
             PURGE,
             NON,
-            ENEMYATTACK
+            ENEMYATTACK,
+            DRAWHACKIFARMOR,
+            DRAWPHYIFHACK
 
         }
     public enum DamageType

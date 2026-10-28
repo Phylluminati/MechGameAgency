@@ -4,28 +4,123 @@ title: Starting_Dialogue
 <<declare $CompanyCredit = 1>>
 <<declare $CompanyTrust = 0>>
 <<declare $ColonyTrust = 0>>
+<<declare $keepstalking= true>>
 <<declare $MapSwitchFlag = false>> //Marker for if the Game should Switch to Map on Conclusion of this Dialogue
 <<FadeIn GameManagerObject>>
 <<ChangeBackgroundImage GameManagerObject "OsBootUp1">>
-<<PilotSprite GameManagerObject "TheCorporation">>
+<<PilotSprite GameManagerObject "PortraitAnon">>
 <<set $MapSwitchFlag = true>>
 Mech: Beep Beep Beep Beep...
-    -> What's Going on
-    -> Why Can't I see
-    -> Where am I
-    -> Who am I
-    -> Quickstart(Dev)
-       <<jump EmptyNode>>>>
+    -> Where am I?
+    -> Why Can't I see?
+    -> Why can't I feel my body?
+    -> Why can't I remember anything?
+    //-> Quickstart(Dev)
+       //<<jump EmptyNode>>>>
 <<ChangeBackgroundImage GameManagerObject "OsBootUp2">>
-<<PilotSprite GameManagerObject "BlueCollar">>
-Mech: Awaiting further instructions...
- -> please tell me what is going on
-        Awaiting further instructions.
- -> (Struggle)
-        Awaiting further instructions.
- <<ChangeBackgroundImage GameManagerObject "OsBootUp3">>
-
-Mech: Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep Beep
+Mech: Awaiting Signal...
+ -> could someone please tell me what is going on
+       Mech: Awaiting Signal...
+ -> * Start struggling and breaking things
+       <<PilotSprite GameManagerObject "Encounter">>
+       * Despite how much you will it, either through restraints or other limitations you cannot even move or feel a finger.
+       <<PilotSprite GameManagerObject "PortraitAnon">>
+       Mech: Awaiting Signal...
+<<ChangeBackgroundImage GameManagerObject "OsBootUp3">>
+Mech: Signal received, establishing Connection
+<<PilotSprite GameManagerObject "TheCorporation">>
+A data package was received, was the landing successful?
+       -> Landing?
+       -> Who are you?
+<<PilotSprite GameManagerObject "PortraitAnon">>
+* There's silence
+* then distant muttering can be heard through your comms, a silent cacophony of different voices, all trying to talk over each other in a whisper.
+* Again the first voice you heard reasserts itself
+<<PilotSprite GameManagerObject "TheCorporation">>
+Do not be alarmed, there might have been a change in mission variables.
+Do you have any difficulties recalling Mission directives, personal memories, previously provided Intel?
+       -> "Yes"
+       -> ""I don't remember anything-"
+       -> ...
+An unfortunate change of parameters- but no reason to abort the mission yet.
+Memory and neurological issues have to be expected, your orbital entry into the colony was uncontrolled and must have been- turbulent
+       -> "Is that also the reason I can't feel my body?"
+              <<PilotSprite GameManagerObject "PortraitAnon">>
+              * the distant background chatter picks back up, after a few seconds one of the voice shushes the rest, the one you have heard before starts speaking again
+              <<PilotSprite GameManagerObject "TheCorporation">>
+              Most likely, but lack of physical feeling will not inhibit you from using the full movement range of the Mechanised Unit you are deployed in.
+              A mobility aid, in a way, the Mech's direct neural link will allow anyone to continue controlling it no matter the damage to their body.
+              And... any extensive damage you have experienced can be fixed by us, upon your successful return.
+       -> *Stay silent
+Onto more important matters, is it correct to assume that you have no recollection of the briefing?
+       -> "there was a briefing?"
+       -> "Yes"
+then an emergency field briefing will have to suffice.
+You have been deployed by VenuSystem IPC, to this extraterrestial company colony, there has been a violent and illegal revolt against previous law rulings by extremist factors.
+The misuse of company provided equipment, including mining droids, excavation and manufacture mechanised Units and machines has allowed the extremist factors to gain the upper hand against local peacekeeping forces.
+You have been sent to guarantuee the decommission or reaquisition of any wayward corporate assets in an attempt to deescalate from further violence and promote renegotiation of former contracts.
+       -> "Are we evil?"
+              Life is rarely that simple, due to the escalation of revolts any institutions focused on order are by one or another means dismantled.
+              that includes institutions specialised on the preservation of life and safety. Firefighting services, medical and humanitarian aid...
+              The company would wish to provide these services, after all there is no gain in needless suffering.
+              It is true that your mission objective is deescalation by radical means, but disarming the violent factors will force them back to the negotiation table.
+              I like to think about this approach as the most efficient, goal being to safe as many lives as possible.
+              You would be aware of this extensive context, if your entry into the colony was less... traumatic, a regretable circumstance.
+       -> "Okay"
+Now, similarly important, are you aware of how the provided mechanised Unit functions and how to use it to its full extend?
+       -> "It's like riding a bycicle, I think I remember" (Skip tutorial)
+              Good, no more reason to stall then. You are aware of your goal, an interior map has been provided, you will be able to choose your own path.
+              In the local area there is a misappropriated mechanised unit of the manufacturing variety, we need you to dismantle it.
+       -> "A refresher would be good, too much is unfamiliar"
+              Starting at the easiest thing to understand, The navigation system.
+              The navigation system has been fed with orbital local surveillance data, it charts a path through the colony, giving vague intel about what to expect in whatever area you traverse.
+              <<ChangeBackgroundImage GameManagerObject "Tutorial1">>
+              here you can see a navigation Map of another mission.
+              There are 4 different types of rooms you can traverse
+              <<ChangeBackgroundImage GameManagerObject "Tutorial2">>
+              Rooms with Enemies you will have to fight are marked as such.
+              for every piece of decommissioned equipment we are willing to award you with one Company Credit.
+              <<ChangeBackgroundImage GameManagerObject "Tutorial3">>
+              Company Credit can be used to buy systems, as well as repair or upgrade your mechanised unit at repair SHOPs.
+              <<ChangeBackgroundImage GameManagerObject "Tutorial4">>
+              Rooms marked as such a registered to have working Systems, ready to be scavenged and added to your deck.
+              <<ChangeBackgroundImage GameManagerObject "Tutorial5">>
+              And rooms like this are unclear areas where something will most likely be encountered, if enemies, obstacles or opportunities.
+              I am about to continue with the Combat system.
+                     -> "Please continue"
+                            Okay, beginning with an explanation of the basic interface and functions.
+                            <<ChangeBackgroundImage GameManagerObject "Tutorial6">>
+                            This is the basic interface, On the bottom left you will see your available weapon systems, to the right your full deck, the already used weapons, and the ones yet to be drawn.
+                            Every turn you can discard 2 weapon systems, each time you do, a new one will be drawn.
+                            The Gauge below your discard counter is your Energy Gauge, it shows you your built up Charge, using weapons uses Energy Charges, after you used all of them, you need to cool down your mech
+                            cooling down your mech, the button for it to the right, takes time which leaves you open for attack. But replenishes your Energy Charges fully.
+                            Right before your mech enters cooldown, your activated weapon systems fire off, firing off all the in your turn collected damage potential at once.
+                            moving on to the typical system-types you will find, do you wish me to continue?
+                                   -> "Yes"
+                                          <<ChangeBackgroundImage GameManagerObject "Tutorial7">>
+                                          There are 4 different types of Systems
+                                          PHYsical and HACKing Systems are considered Weapon systems, they are used to inflict direct damage.
+                                          <<ChangeBackgroundImage GameManagerObject "Tutorial8">>
+                                          Keep in mind, that hostiles who actively use Shields to block attacks, lessen the impact of any PHYsical damage inflicted on them.
+                                          In return HACKing is less helpful against hostiles who are using Armor to block.
+                                          <<ChangeBackgroundImage GameManagerObject "Tutorial7">>
+                                          The other two systems are MULTiplier and RUST.
+                                          MULTiplier are neutral systems specialised on overclocking your own capabilites or improving already prepared direct damage output by PHYsical and HACKing systems.
+                                          RUST, well, are systems based on and specialised in untypical temporal-physical properties. It's best not to worry too much about it.
+                                   -> "No thank you, I know all I wanted to know"
+                                          Very well, no more stalling, you have the companies go ahead.
+                                          good luck, we will be in touch.            
+                     -> "I think I know enough now"
+                            Very well, no more stalling, you have the companies go ahead.
+                            good luck, we will be in touch.
+<<ClearBackgroundImage GameManagerObject>>
+<<PilotSprite GameManagerObject "Black">>
+* Your radio clicks silent, you are alone
+* You sensors activate you landed in an old storeroom amongst tons of deactivated machinery
+* Some seems salvagable
+<<RewardCards GameManagerObject 8 3>>
+There's some more
+<<RewardCards GameManagerObject 8 3>>        
 ===
 title: RandomEncounter0
 ---
@@ -61,6 +156,7 @@ Colony AI: I am also your dedicated assistant, ensuring you get your work done a
 title: CAIMAS1
 ---
 <<set $MapSwitchFlag = true>>
+<<PilotSprite GameManagerObject "Encounter">>
 Colony AI: Now, is there anything else I, CAIMAS, can help and assist you with?
        -> But seriously, Taco Pasta Tuesdays?
               Colony AI: The Horror! no more, no more
@@ -72,7 +168,7 @@ Colony AI: Now, is there anything else I, CAIMAS, can help and assist you with?
               Colony AI: Quite an odd request, are you telling me you don't know anything about Company and Colony despite working for them and working here?
               Colony AI: But of course I will oblige
               Colony AI: I will print a prepared statement, to get you up to speed, interject if you have any questions
-              Colony AI: We are on Tellurium Station on Venus, our main produce and export of course being, you guessed it, Tellurium and Tellurium Alloys.
+              Colony AI: We are on Tellurium Station on Venus, our main produce and export of course being, you guessed it, Tellurium and Tellurium based Alloys.
                      -> Venus?
                             Colony AI: The second closest planet orbiting Sol, the atmosphere is highly toxic and hostile to humans, but no need for concern, we're in a pressurised area.
                      -> Telurium?
@@ -103,17 +199,89 @@ Colony AI: Now, is there anything else I, CAIMAS, can help and assist you with?
               Colony AI: The compliment is much appreciated, VenuSystem IPC's advancements in neural mapping and neural emulation are quite awe-inspiring
               Colony AI: And I am not just saying that, because my neural map programming is compelling me to.
               Colony AI: I must say, I can only return the compliment, it is very impressive how suprisingly human you seem.
-              <<jump CAIMAS1>>
-       -> I should ask Corporate...
-              <<PilotSprite GameManagerObject "TheCorporation">>
-              
-       -> [HACK]With the advanced systems on board, I could try to override the protocol[/HACK]
-              test      
-       -> [Risk]I'm in a highly combat-able mechanised vehicle, I can just blow through the door[/Risk]
-              test
+              <<jump CAIMAS1>>      
+       -> [Risk]With the advanced systems on board, I could try to override the protocol[/Risk]
+              * While the AI continues to rattle on you start rummaging around the closeby Interface for terminal access
+              <<set $randomChance= random_range(1,100)>>  
+              <<if $randomChance < 20>>
+              //Antivirus software gets activated, HACK damage happens to Shield
+              * Suddenly a ping rings out from terminal and the AI stops
+              Colony AI: Unauthorised Intrusion detected activating Antivirus.
+              * A jolt of pain shoots through your cortex, your vision blurs and the Control of your Mech falters.
+              * your Neural Connection is being quite literally being burned away by the antivirus' measures.
+              Colony AI: Protocol is Protocol, Pilot, there's nothing I can do.
+              Colony AI: I'm sure you and the company understand, at the end.
+              * As your consciousness fades an idea comes to your mind
+              * you overload your Shield capacitors and funnel it into the terminal, short circuiting the local power grid.
+              Colony AI: What are you- **BBBBBBZZZZZZZZZZTTTTTTTTT**
+              * The terminal lies dead, the local area unpowered, and your overload having caused moderate to sever damage to your own system [neg](1000 HACK damage received)[/neg]
+              * At least an unpowered Blast door is easy to wrench open with what remains of your Mech.
+              <<elseif $randomChance < 66>>
+              //Door Opens, no further things happen
+              * The AI doesn't notice as you manage to gain Terminal Access, you get the hang of it quickly, and shortly after, you give a command to open all Blast Doors in the area and lock them open.
+              Colony AI: What... what just happened.
+              Colony AI: This isn't protocol!
+              Colony AI: Whatever you do! do NOT go through these doors!
+              Colony AI: This is a serious infringement of-
+              * You continue on leaving the AI to its tirade.
+              <<else>>
+              //backdoor access to the system, find a local Company Credit Stash +2 Company Credits
+               * The AI doesn't notice as you manage to gain Terminal Access, you get the hang of it quickly, even better, you find a Credit Account under the AI's designation, you quickly empty it [pos](+2 Company Credit)[/pos]
+               <<set $CompanyCredit += 2>>
+               * shortly after, you give a command to open all Blast Doors in the area and lock them open.
+              Colony AI: What... what just happened.
+              Colony AI: This isn't protocol!
+              Colony AI: Whatever you do! do NOT go through these doors!
+              Colony AI: This is a serious infringement of-
+              *  You leave the AI to its tirade and continue on a little richer.
+              <<endif>>
+       -> [Risk]I am in a highly militarised combat Mech, I can just blow through the door[/Risk]
+              <<set $randomChance= random_range(1,100)>>  
+              <<if $randomChance < 20>>
+              //Security Measures get activated, PHY damage happens to Armor
+              * While the AI prattles on you charge up your weapons.
+              Colony AI: Now now, what your doing IS against protocol!
+              Colony AI: Deploying Countermeasures!
+              * Before you can wonder what the Countermeasures are, turrets rapidly unfurl from ceiling pods and start barraging your Mech.
+              * two or three you could have handled, but the entire room is full of them.
+              * After a short and intense battle you scrapped pretty much every Mechanism in the room, including the terminal the AI was communicating through and the Blastdoor.
+              * But not without sustaining major Physical damage. [neg](1000 PHY damage received)[/neg]
+              <<elseif $randomChance < 66>>
+              //Door Opens, no further things happen
+              * While the AI prattles on you charge up your weapons.
+              Colony AI: Now now, what your doing IS against protocol!
+              Colony AI: Deploying Countermeasures!
+              * you see little mechanical ceiling pods unfurl all around the room, you ready yourself for a intense fight with automated security system.
+              * but then a rainshower of sparks burst from the pods and fill the room.
+              Colony AI: That.. that isn't supposed to happen!
+              Colony AI: That's not our defense protocol.
+              Colony AI: Dear Pilot, please hold on a minute and wait, it seems that our defense system infrastructure has been damage in the wake of the revolt
+              * Without any more hesitation you fire your weapons on the blast door
+              Colony AI: DO NOT blast through the door, I'm tellin- AHhh, you did it...
+              Colony AI: Who is going to pay for these damages, that's terrible, where do I even file an incident like this under-
+              * You leave the AI to its tirade and continue on, unbothered.
+              <<else>>
+              //Security System tries to active, you rip the security turrets of its hinges before they can fully activate // Gain new 2 PHY Cards
+              * While the AI prattles on you charge up your weapons.
+              Colony AI: Now now, what your doing IS against protocol!
+              Colony AI: Deploying Countermeasures!
+              * you see little mechanical ceiling pods unfurl all around the room, you ready yourself for a intense fight with automated security system.
+              * but then a rainshower of sparks burst from the pods and fill the room.
+              Colony AI: That.. that isn't supposed to happen!
+              Colony AI: That's not our defense protocol.
+              * You see two turrets still intact, before the AI realises you jump forward and grab both and rip them out of their sockets.
+              * While damaged, the whole mechanism seems relatively untouched, you can easily incorporate those weapons into your own System. [pos](You gain 2 PHY Cards)[/pos]
+              <<RewardCards GameManagerObject 8 2 0>>
+              Colony AI: Dear Pilot, please hold on a minute and wait, it seems that our defense system infrastructure has been damage in the wake of the revolt
+              * Without any more hesitation you fire your weapons on the blast door
+              Colony AI: DO NOT blast through the door, I'm tellin- AHhh, you did it...
+              Colony AI: Who is going to pay for these damages, that's terrible, where do I even file an incident like this under-
+              * You leave the AI to its tirade and continue on, unbothered.
+              <<endif>>
 ===
 title: RandomEncounter1
 ---
+       <<PilotSprite GameManagerObject "Encounter">>
        <<set $MapSwitchFlag = true>>
        While traversing a ruined abandoned hallway of the colony, you stumble across the remnants of a battle between insurgents and company defense forces. 
               -> [Risk]Look through the scraps for useful tools[/Risk] (Chance)
@@ -126,9 +294,9 @@ title: RandomEncounter1
                             //NewCardPick                    
                      <<elseif $randomChance < 60>> //Free Repairs, 20%, all     
                             Some Mech Armor and Chassis' are still in useable condition, you tear them off and add them to your own.
-                            <<RepairMech 0 20>>
-                            <<RepairMech 1 20>>
-                            <<RepairMech 2 20>>
+                            <<RepairMech GameManagerObject 0 20>>
+                            <<RepairMech GameManagerObject 1 20>>
+                            <<RepairMech GameManagerObject 2 20>>
                             20% Total Heal.
                             There seems to be nothing more to do here.        
                      <<elseif $randomChance < 90>>
@@ -136,8 +304,8 @@ title: RandomEncounter1
                             Burned out Mechs and lifeless bodies, there seems nothing more to do here.
                      <<else>>
                             The entire battlefield is lifeless, the only thing still live is the ammunition in the wreckage you're searching.
-                            <<RepairMech 1 -10>>
-                            <<RepairMech 2 -10>>
+                            <<RepairMech GameManagerObject 1 -10>>
+                            <<RepairMech GameManagerObject 2 -10>>
                             as you touch it, it decides its time has come.
                             [Risk]You take 10% Shield and Armor DMG.[/Risk]
                             //damages MainMech
@@ -313,24 +481,38 @@ Steel Eye: We're on another trip, means we have Cargo Space again, is there anyt
 The crew continues their loading and looting process as you venture on.
 <<set $ChosenAmount = 0>>
 ===
+
 title: RandomEncounter4
 ---
+// You come across a powered off SHOP
+<<PilotSprite GameManagerObject "Encounter">>
+* You come across a powered off Shop Terminal.
+* With the quick press of a button it churns back to live
+<<jump SHOP>>
+
+===
+
+title: RandomEncounter5
+---
+//Unfinished and not implemented
 <<set $MapSwitchFlag = true>>
+<<PilotSprite GameManagerObject "TheCorporation">>
+Be warned, sensors are registering that the colonies main reactor is leaking.
+While you are not in any immediate danger, you are in the path of a massive burst of Energy.
+       ->"What does that mean?"
+
+       ->* Brace yourself
 //A communications relay leak happens you get into contact with the local boss.
 
 ===
-title: RandomEncounter5
----
-<<set $MapSwitchFlag = true>>
-// A Blackboard with various notices, on of them complaining about Taco Pasta Tuesdays
-===
 title: SHOP
 ---
+<<PilotSprite GameManagerObject "TheCorporation">>
 <<set $MapSwitchFlag = true>>
 <<declare $UsedCard = false>>
 <<declare $UsedRepair = false>>
 <<declare $UsedUpgrade = false>>            
-What do you want? [pos]({$CompanyCredit} Company Credit on Account)[/pos]
+You made it to a Repair Shop, good, what services do you require? [pos]({$CompanyCredit} Company Credit on Account)[/pos]
        -> I require more Weapons [Risk](1 CC)[/Risk]
               <<if $CompanyCredit == 0>>
                      You have no Company Credit on your account, I'm afraid we can't allocate more resources to you until you gain more
@@ -438,3 +620,132 @@ title: EmptyNode
 ---
 .
 === 
+title: BossInitial
+---
+<<declare $IsNotAttacking = false>>
+<<declare $StartedAttackingAgain = false>>
+<<declare $DialogueIndex = 0>>
+//Below this part the different possibilities how the battle can go will be checked.
+<<if $DialogueIndex == 0>>
+<<jump BossFightStart>>
+<<elseif $DialogueIndex == 1>>
+<<jump BossFight1>>
+<<elseif $DialogueIndex == 2>>
+<<jump BossFight3>>
+<<elseif $DialogueIndex == 3>>
+<<jump BossFight4>>
+<<endif>>
+===
+title: BossFightStart
+---
+<<PilotSprite GameManagerObject "PortraitAnon">>
+Now look at that...
+I heard the reports of one going rogue, but seeing you is an entirely different thing.
+<<PilotSprite GameManagerObject "BlueCollar">>
+You did enough damage now, it's time to scrap you.
+<<set $DialogueIndex = 1>>
+===
+title: BossFight1
+---
+<<PilotSprite GameManagerObject "BlueCollar">>
+How they keep finding cannon fodder like you is beyond me.
+What did they promise you to get you on this rock even.
+->They can repair my body
+       yeah, good luck with that, they barely managed to repair my damage.
+->I don't think what I have to gain matters to you [pos](+1 Extra energy next turn)[/pos]
+       <<TemporaryEnergy GameManagerObject 1>>
+       guess not
+->*Stay silent [pos] (draw 2 extra cards) [/pos]
+       <<ExtraCardDraw GameManagerObject 2>>
+<<set $DialogueIndex = 2>>
+===
+title: BossFight2
+---
+<<PilotSprite GameManagerObject "BlueCollar">>
+
+===
+title: BossFight3
+---
+<<PilotSprite GameManagerObject "BlueCollar">>
+why even do this, we're trying to build something, you're just here to destroy
+-> I'm trying to save lives! [pos](+2 Card draw)[/pos]
+       <<ExtraCardDraw GameManagerObject 2>>
+       keep telling that to yourself.
+-> I'm trying to do the right thing.
+       this is definitely not it...
+-> I had no Choice in this
+       Maybe not, but you do right now
+       And you keep on going.
+<<set $DialogueIndex = 3>>
+===
+title: BossFight4
+---
+<<PilotSprite GameManagerObject "BlueCollar">>
+Just... STOP fighting, for gods sake!
+       -> Never 
+       -> I won't stop 
+       -> I will kill you [pos](+1 permanent Energy)[/pos]
+              <<EnergyGain GameManagerObject 1>>
+<<set $keepstalking = false>>
+===
+title: BossConversation
+---
+<<PilotSprite GameManagerObject "BlueCollar">>
+Good, you actually stopped fighting
+I didn't actually expect that
+the last few didn't listen
+       -> "What do you mean last few?"
+              Oh come on, don't expect you're the first they sent here.
+              They keep sending more, you probably won't be the last either
+       -> "then talk."
+              You're not the first and won't be the last-
+       -> "I am making a mistake."
+              Well, at least you are listening
+              You are not the first nor last they used
+And they didn't actually send you here
+       -> "what?"
+not in the physical sense...
+I cracked open plenty that came before, like I said.
+and you know there's no company present here, they got chased off a while ago, we've just been cleaning after the mess they've left.
+They don't have the resources to return, or it's just not profitable enough for them to.
+Instead they opted for the cheaper alternative, you!
+Every few days, one of the stored mechs receives a signal, goes haywire and goes on a destruction spree.
+       -> That means...
+You're a neural scan, sorry
+No body for you to get fixed
+sending out a data transfer is cheaper and faster than sending their own forces.
+Good news is, they have no sway here, over you
+       -> this is alot to take in
+It is...
+<<FadeIn GameManagerObject>>
+tell me, have they chimed up in your comms by now, called me a liar or anything like that.
+If not, they probably pulled the plug and are already preparing the next copy to send over.
+       -> I don't quite know what to do now
+       -> "Do I get anything for the Company Credit I collected."
+              Nah, that stuff is totally worthless.
+                     -> "Dangit"
+<<PilotSprite GameManagerObject "Black">>
+Lacking a body sucks, I'm sorry, you got the next best thing though.
+And lucky for you we are in need of any capable hands that can pilot.
+You can make the chaos you caused up to us.
+===
+title: CorporateEnding
+---
+<<PilotSprite GameManagerObject "TheCorporation">>
+<<FadeIn GameManagerObject>>
+Fabulous work, we knew you were right for the job!
+       -> "It's over, does that mean you'll fix my body"
+              you more than exceeded our expectation, upper management was skeptical about your potential and performance.
+              And now look at you, completed the main objective, gathered equipment and systems, you did an excellent job.
+              you will get something even better than a fixed, limited biological body
+              the scalability of it all...
+              A model like you could be deployed all over contested territories, let off of their leashes to spread controlled chaos.
+              You are a fine specimen.
+                     -> "I feel weak-"
+                            <<PilotSprite GameManagerObject "Black">>
+                            Don't worry, recovery is already underway.
+                            Alot still must be done, alot of Bureaucracy too, you will get your reward.
+                            For now, we recommend you let your Unit enter sleep mode.
+                            Being disconnected of the power grid it must have ran out.
+
+===

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Administrative AI Matrix
   m_EditorClassIdentifier: Assembly-CSharp::Unit
   healthBarType: 000000000100000002000000
-  healthBarMaxValues: e803000000000000d0070000
+  healthBarMaxValues: 2003000000000000d0070000
   personalSprite: {fileID: 0}
   mechSprite: {fileID: 0}
   maxDamage: 1000
   minDamage: 100
   preferredDmgType: 0
   PreferenceOffset: -30
-  VisualsPrefab: {fileID: 0}
+  VisualsPrefab: {fileID: 302434042518067291, guid: c7bef8e7e7dd9ee408e71764de880eac, type: 3}

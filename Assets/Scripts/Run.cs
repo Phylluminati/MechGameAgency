@@ -11,10 +11,11 @@ public class Run : MonoBehaviour
     [SerializeField] GameObject Map;
     [SerializeField] GameObject Menu;
     [SerializeField] List<Unit> NormalEnemies;
+    [SerializeField] Unit Boss;
     GameObject GameManagerObject;
     DialogueRunner dialogue;
     List<bool> playedEncounters = new List<bool>(){false, false, false, false, false, false, false, false, false, false, false, false};
-    List<int> Repeatables = new List<int>(){3};
+    List<int> Repeatables = new List<int>(){3,1,5};
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -102,7 +103,7 @@ public class Run : MonoBehaviour
                 while(go_ahead == false)
                 {
                     //Random range Max should be the max amount of random encounters there can be 
-                    int random = UnityEngine.Random.Range(0,4);
+                    int random = UnityEngine.Random.Range(0,5);
                     for(int j = 0; j < Repeatables.Count; j++)
                         {
                             if(Repeatables[j] == random)
@@ -123,7 +124,10 @@ public class Run : MonoBehaviour
             break;
 
             case Encounter.Type.BOSS:
-
+                Map.SetActive(false);
+                Game.SetActive(true);
+                GameManagerObject.GetComponent<GameManagerScript>().InstantiateCommonEnemy(Boss);
+                GameManagerObject.GetComponent<GameManagerScript>().isFinalBoss = true;
             break;
 
             case Encounter.Type.SHOP:

@@ -4,7 +4,6 @@ using UnityEngine;
 using CardRunner;
 using TMPro;
 using System.Data;
-using UnityEditor.PackageManager;
 using System.Runtime.CompilerServices;
 using NUnit.Framework.Constraints;
 using Unity.VisualScripting;
@@ -13,6 +12,7 @@ using Yarn.Unity;
 using System.Collections;
 using System.Numerics;
 using UnityEngine.UI;
+using Yarn;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -34,6 +34,7 @@ public class GameManagerScript : MonoBehaviour
     public List<Card> cardsPlayedThisTurn;
     public List<Card> drawPile;
     public List<Card> discardPile;
+    int temporary_energy_gain;
 
     public List<Card> AllCardsInPlay;
     
@@ -58,6 +59,8 @@ public class GameManagerScript : MonoBehaviour
 
     public bool mainShieldActive;
     public bool enemyShieldActive;
+    public bool isFinalBoss = false;
+    bool boss_hostile = true;
 
 
     public GameObject cardPrefab;
@@ -115,6 +118,7 @@ void StartofCombat()
         this.GetComponent<DialogueManager>().FadeOut();
         NewRoundCheck();
     }
+int temporary_card_draw;
 
 public void NewRoundCheck()
     {
@@ -128,20 +132,75 @@ public void NewRoundCheck()
             GenerateDrawPile(); 
         }
         // if I wanna add an effect that carries over energy between rounds I need to implement it right before the round energy gets reset to 4
-        RoundEnergy = RoundlyEnergy;
+        RoundEnergy = RoundlyEnergy + temporary_energy_gain;
+        temporary_energy_gain = 0;
         DiscardsThisTurn = TurnlyDiscards;
         this.GetComponent<ENTracker>().UpdateEN(RoundEnergy);
         shuffleDrawPile();
-        int newrounddraw = 7 - CardEmpty.transform.childCount;
+        int newrounddraw = 7 - CardEmpty.transform.childCount + temporary_card_draw;
         if(newrounddraw > 0)
         {
             DrawRandomCard(newrounddraw);
         }
-        
-
+        temporary_card_draw = 0;
         UpdateUIEffects();
         EndTurnButton.interactable = true;
     }
+    bool keepstalking;
+    bool hasTalked = false;
+public void EndTurnFunction()
+    {
+        if(currentEnemy.GetComponent<UnitTracker>().unitData == null)
+        {
+            return;
+        }
+        if(hasTalked == true)
+        {
+            hasTalked = false;
+            EndOfRoundCheck();
+            return;
+        }
+        if(isFinalBoss == true)
+        {
+            keepstalking = this.GetComponent<DialogueManager>().CheckTalkingFlag();
+            if(roundHackDmgOutput == 0 && roundPhyDmgOutput == 0 && cardsPlayedThisTurn.Count == 0)
+            {
+                this.GetComponent<DialogueManager>().RoundsSinceAttackingBoss += 1;
+            }
+            else
+            {
+                this.GetComponent<DialogueManager>().RoundsSinceAttackingBoss = 0;
+            }
+
+            if(this.GetComponent<DialogueManager>().RoundsSinceAttackingBoss >= 2)
+            {
+                boss_hostile = false;
+            }
+            else
+            {
+                boss_hostile = true;
+            }
+            if(this.GetComponent<DialogueManager>().RoundsSinceAttackingBoss > 3)
+            {
+                this.GetComponent<DialogueManager>().StartDialogue("BossConversation");
+            }
+            else if(keepstalking)
+            {
+                hasTalked = true;
+                this.GetComponent<DialogueManager>().StartDialogue("BossInitial");
+            }
+            else if(!keepstalking)
+            {
+                EndOfRoundCheck();
+                return;
+            }
+        }
+        else
+        {
+            EndOfRoundCheck();
+        }
+    }
+
 public void EndOfRoundCheck()
     {
         if(GameOver.activeSelf == true || BattleWonPanel.activeSelf == true)
@@ -270,7 +329,7 @@ public void EndOfRoundCheck()
                 {
                     case Card.Effect.MELT:
                         //Deals XX Damage per stack of MELT to the target, Circumvents SHIELD, only Damages ARMOR and then HULL
-                        int MELTStackDmg = 20;
+                        int MELTStackDmg = 40;
                         int MELTFullDmg = MELTStackDmg * currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i];
                         GameObject tempDmgNumber = Instantiate(DMGNr, EnemyMechLocation.transform);
                         tempDmgNumber.GetComponent<TMP_Text>().text = MELTFullDmg.ToString();
@@ -297,7 +356,7 @@ public void EndOfRoundCheck()
                     case Card.Effect.DRAIN:
                     //basically MELT but in HACK
                         //Beep
-                        int DrainStackDMG = 20;
+                        int DrainStackDMG = 40;
                         int DrainFullDmg = DrainStackDMG * currentEnemy.GetComponent<UnitTracker>().activeEffectDuration[i];
                         tempDmgNumber = Instantiate(DMGNr, EnemyMechLocation.transform);
                         tempDmgNumber.GetComponent<TMP_Text>().text = DrainFullDmg.ToString();
@@ -446,7 +505,6 @@ public void EndOfRoundCheck()
                 }
                 }
         }
-
         
 
 
@@ -458,6 +516,7 @@ public void EndOfRoundCheck()
                 }
         roundHackDmgOutput = 0;
         roundPhyDmgOutput = 0;
+        cardsPlayedThisTurn.Clear();
         UpdateDMGCounters();
         MainMech.GetComponent<BattleHUD>().FullUpdateCheck();
         currentEnemy.GetComponent<BattleHUD>().FullUpdateCheck();
@@ -512,7 +571,6 @@ public void UpdateDMGCounters()
         }
         shuffleDrawPile();
     }
-
     public void DrawRandomCard(int drawAmount)
     {
         //int randomDeterminator;
@@ -611,7 +669,7 @@ public void UpdateDMGCounters()
                 }
                 else
                 {
-                    print("drawpile and discardpile empty, aborting draw");
+                    Debug.LogError("drawpile and discardpile empty, aborting draw");
                 }
             }
         }
@@ -651,25 +709,11 @@ public void UpdateDMGCounters()
         //this method is responsible for causing card effects to happen, 
         // it will read Carddata from played/discarded cards, that got played with the DiscardCard() method in the carddisplayscript
         //print("Card: " + cardData.cardName + "/n CardType: " + cardData.cardType);
-
-
+        cardsPlayedThisTurn.Add(cardData);
         //following snippet of code is for the effects DrawHackifPHY and DrawPhyifHack which specialise in drawing specific cards when playing a certain card type
         for(int i = 0; i < MainMech.GetComponent<UnitTracker>().activeEffects.Count; i++)
         {
-            if(MainMech.GetComponent<UnitTracker>().activeEffects[i] == Card.Effect.DRAWPHYIFSHIELD)
-            {
-                if(cardData.cardType == Card.CardType.HACK)
-                {
-                    DrawSpecificCardType(Card.CardType.PHY);
-                }
-            }
-            if(MainMech.GetComponent<UnitTracker>().activeEffects[i] == Card.Effect.DRAWHACKIFPHY)
-            {
-                if(cardData.cardType == Card.CardType.PHY)
-                {
-                    DrawSpecificCardType(Card.CardType.HACK);
-                }
-            }
+            
             if((MainMech.GetComponent<UnitTracker>().activeEffects[i] == Card.Effect.PILEDRIVER) && (cardData.cardType == Card.CardType.PHY) && (cardData != pileDriver)) 
             {
                 int tempnumber = MainMech.GetComponent<UnitTracker>().activeEffectDuration[i];
@@ -696,6 +740,21 @@ public void UpdateDMGCounters()
                 //End This Instance of PlayCardEffect() after instantiating all the necessary ODAYs
                 return;
             }
+                if(MainMech.GetComponent<UnitTracker>().activeEffects[i] == Card.Effect.DRAWPHYIFHACK)
+            {
+                if(cardData.cardType == Card.CardType.HACK)
+                {
+                    DrawSpecificCardType(Card.CardType.PHY);
+                }
+            }
+            if(MainMech.GetComponent<UnitTracker>().activeEffects[i] == Card.Effect.DRAWHACKIFPHY)
+            {
+                if(cardData.cardType == Card.CardType.PHY)
+                {
+                    DrawSpecificCardType(Card.CardType.HACK);
+                }
+            }
+            
         }
         
 
@@ -775,6 +834,7 @@ public void UpdateDMGCounters()
                         case Card.Effect.ENERGYTODISCARD:
                             DiscardsThisTurn += RoundEnergy;
                             RoundEnergy = 0;
+                            Mathf.Clamp(DiscardsThisTurn, 0, 12);
                         break;
 
                         case Card.Effect.SELFDESTRUCT:
@@ -826,10 +886,11 @@ public void UpdateDMGCounters()
                                 HealthbarSwitch(MainMech);
                         break;
 
-                        case Card.Effect.DRAWPHYIFSHIELD:
-                            MainMech.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.DRAWPHYIFSHIELD);
+                        case Card.Effect.DRAWPHYIFHACK:
+                            MainMech.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.DRAWPHYIFHACK);
                             MainMech.GetComponent<UnitTracker>().activeEffectDuration.Add(cardData.effectSeverity[i]);
                         break;
+
 
                         case Card.Effect.DRAWHACKIFPHY:
                             MainMech.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.DRAWHACKIFPHY);
@@ -877,6 +938,21 @@ public void UpdateDMGCounters()
                                 currentEnemy.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.ODAY);
                                 currentEnemy.GetComponent<UnitTracker>().activeEffectDuration.Add(1);
                             }
+                        break;
+                        case Card.Effect.DRAWHACKIFARMOR:
+                            if(currentEnemy.GetComponent<UnitTracker>().activeHealthbar == 0)
+                            {
+                                DrawSpecificCardType(Card.CardType.HACK);
+                                DrawSpecificCardType(Card.CardType.HACK);
+                            }
+                        break;
+                        
+                        case Card.Effect.DRAWPHYIFSHIELD:
+                            if(currentEnemy.GetComponent<UnitTracker>().activeHealthbar == 1)
+                                {
+                                DrawSpecificCardType(Card.CardType.PHY);
+                                DrawSpecificCardType(Card.CardType.PHY);
+                                }
                         break;
                     }
                 }
@@ -933,7 +1009,7 @@ Card.DamageType currentAttackingType;
                     }
                 }
         }
-        if(isAlreadyAttacking == false)
+        if(isAlreadyAttacking == false && boss_hostile == true)
             {
                 //if already attacking is false start new attack counter, randomise attack 2-4 turns away
                 currentEnemy.GetComponent<UnitTracker>().activeEffects.Add(Card.Effect.ENEMYATTACK);
@@ -1251,6 +1327,11 @@ IEnumerator EndBattle()
 
         yield return new WaitForSeconds(3);
         ClearEnemyVisuals();
+        if(isFinalBoss)
+        {
+            this.GetComponent<DialogueManager>().StartDialogue("CorporateEnding");
+            yield break;
+        }
         MainMech.GetComponent<BattleHUD>().FullUpdateCheck();
         //currentEnemy.GetComponent<BattleHUD>().FullUpdateCheck();
         UpdateUIEffects();
@@ -1311,6 +1392,21 @@ public void DiscardGain(int amount)
 [YarnCommand("UpgradeMechHp")]
 public void UpgradeMechHp(int hpType, float percentile)
     {
-        MainMech.GetComponent<UnitTracker>().unitData.healthBarMaxValues[hpType] = (int)(MainMech.GetComponent<UnitTracker>().unitData.healthBarMaxValues[hpType] * percentile);
+        int upgraded_health = (int)(MainMech.GetComponent<UnitTracker>().unitData.healthBarMaxValues[hpType] * percentile);
+        int temp = MainMech.GetComponent<UnitTracker>().unitData.healthBarMaxValues[hpType];
+        MainMech.GetComponent<UnitTracker>().unitData.healthBarMaxValues[hpType] = upgraded_health;
+        MainMech.GetComponent<UnitTracker>().healthBarCurrentValues[hpType] += (upgraded_health - temp);
+    
+    }
+[YarnCommand("TemporaryEnergy")]
+public void TemporaryEnergy(int number)
+    {
+        temporary_energy_gain = number;
+    }
+
+[YarnCommand("ExtraCardDraw")]
+public void ExtraCardDraw(int amount)
+    {
+        temporary_card_draw = amount;
     }
 }

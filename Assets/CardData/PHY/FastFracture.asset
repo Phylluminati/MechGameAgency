@@ -19,5 +19,5 @@ MonoBehaviour:
   cost: 0
   dmg: 10
   applyEffect: 
-  damageType: 0
+  damageType: 1
   effectSeverity: 

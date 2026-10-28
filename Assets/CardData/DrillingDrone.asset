@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DrillingDrone
   m_EditorClassIdentifier: Assembly-CSharp::Unit
   healthBarType: 000000000100000002000000
-  healthBarMaxValues: 2c010000e8030000e8030000
+  healthBarMaxValues: c8000000e8030000e8030000
   personalSprite: {fileID: 0}
   mechSprite: {fileID: 0}
   maxDamage: 500

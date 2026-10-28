@@ -15,8 +15,8 @@ MonoBehaviour:
   cardName: System Purge
   cardImage: {fileID: 0}
   cardDescriptor: Clear Out All Status Effects on your Mech, take 300 Hull Damage
-  cardType: 0
-  cost: 0
+  cardType: 2
+  cost: 2
   dmg: 0
   applyEffect: 130000000e000000
   damageType: 0
