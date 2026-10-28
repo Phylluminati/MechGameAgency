@@ -81,6 +81,7 @@ public class EffectIconLogic : MonoBehaviour
                             tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = meltIcon;
                             tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
                             tempIcon.GetComponentInChildren<TMP_Text>().color = Color.red;
+                            tempIcon.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = "Deals 40 PHY damage per stack each turn";
                             
                         break;
 
@@ -89,6 +90,7 @@ public class EffectIconLogic : MonoBehaviour
                             tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = drainSprite;
                             tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
                             tempIcon.GetComponentInChildren<TMP_Text>().color = Color.blue;
+                            tempIcon.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = "Deals 40 HACK damage per stack each turn";
                         break;
 
                         case Card.Effect.SELFSWITCH:
@@ -102,12 +104,14 @@ public class EffectIconLogic : MonoBehaviour
                                 tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = shieldSwitch;
                                 tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
                                 tempIcon.GetComponentInChildren<TMP_Text>().color = Color.blue;
+                                tempIcon.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = "Is switching their active Defense to SHIELD";
                             }
                         else
                             {
                                 tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = armorSwitch;
                                     tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
                                     tempIcon.GetComponentInChildren<TMP_Text>().color = Color.red;
+                                    tempIcon.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = "Is switching their active Defense to ARMOR";
                             }
                         break;
 
@@ -117,28 +121,33 @@ public class EffectIconLogic : MonoBehaviour
                                 tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = phyAttack;
                                 tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
                                 tempIcon.GetComponentInChildren<TMP_Text>().color = Color.red;
+                                tempIcon.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = "Is preparing to attack with PHY";
                             }
                             else
                             {
                                 tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = hackAttack;
                                 tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
                                 tempIcon.GetComponentInChildren<TMP_Text>().color = Color.green;
+                                tempIcon.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = "Is preparing to attack with HACK";
                             }
                         //TODO: Check EnemyAttackType and adjust Icon accordingly
                         break;
                         case Card.Effect.PILEDRIVER:
                                 tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = null;
                                 tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
-                                tempIcon.GetComponentInChildren<TMP_Text>().color = Color.red;                  
+                                tempIcon.GetComponentInChildren<TMP_Text>().color = Color.red;
+                                tempIcon.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = "Played PHY cards turn into Piledrivers";                  
                         break;
                         case Card.Effect.ODAY:
                                 tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = null;
                                 tempIcon.GetComponentInChildren<TMP_Text>().text = transform.parent.parent.GetComponent<UnitTracker>().activeEffectDuration[i].ToString();
                                 tempIcon.GetComponentInChildren<TMP_Text>().color = Color.green;
+                                tempIcon.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = "Played HACK cards turn into Zer0 Days";   
                         break;
                         case Card.Effect.SELFDESTRUCT:
                             tempIcon.GetComponent<UnityEngine.UI.Image>().sprite = selfDestructIcon;
                             tempIcon.GetComponentInChildren<TMP_Text>().text = " ";
+                            tempIcon.transform.GetChild(1).GetComponentInChildren<TMP_Text>().text = "Explodes at the End of Turn";   
                         break;
 
                         default:

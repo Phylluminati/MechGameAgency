@@ -1,5 +1,6 @@
 title: Starting_Dialogue
 ---
+
 <<declare $randomChance = 0>>
 <<declare $CompanyCredit = 1>>
 <<declare $CompanyTrust = 0>>
@@ -7,9 +8,10 @@ title: Starting_Dialogue
 <<declare $keepstalking= true>>
 <<declare $MapSwitchFlag = false>> //Marker for if the Game should Switch to Map on Conclusion of this Dialogue
 <<FadeIn GameManagerObject>>
-<<ChangeBackgroundImage GameManagerObject "OsBootUp1">>
 <<PilotSprite GameManagerObject "PortraitAnon">>
 <<set $MapSwitchFlag = true>>
+*(Space to advance Dialogue)*
+<<ChangeBackgroundImage GameManagerObject "OsBootUp1">>
 Mech: Beep Beep Beep Beep...
     -> Where am I?
     -> Why Can't I see?
@@ -58,7 +60,7 @@ Onto more important matters, is it correct to assume that you have no recollecti
 then an emergency field briefing will have to suffice.
 You have been deployed by VenuSystem IPC, to this extraterrestial company colony, there has been a violent and illegal revolt against previous law rulings by extremist factors.
 The misuse of company provided equipment, including mining droids, excavation and manufacture mechanised Units and machines has allowed the extremist factors to gain the upper hand against local peacekeeping forces.
-You have been sent to guarantuee the decommission or reaquisition of any wayward corporate assets in an attempt to deescalate from further violence and promote renegotiation of former contracts.
+You have been sent to guarantee the decommission or reaquisition of any wayward corporate assets in an attempt to deescalate from further violence and promote renegotiation of former contracts.
        -> "Are we evil?"
               Life is rarely that simple, due to the escalation of revolts any institutions focused on order are by one or another means dismantled.
               that includes institutions specialised on the preservation of life and safety. Firefighting services, medical and humanitarian aid...
@@ -67,7 +69,7 @@ You have been sent to guarantuee the decommission or reaquisition of any wayward
               I like to think about this approach as the most efficient, goal being to safe as many lives as possible.
               You would be aware of this extensive context, if your entry into the colony was less... traumatic, a regretable circumstance.
        -> "Okay"
-Now, similarly important, are you aware of how the provided mechanised Unit functions and how to use it to its full extend?
+Now, similarly important, are you aware of how the provided mechanised Unit functions and how to use it to its full extent?
        -> "It's like riding a bycicle, I think I remember" (Skip tutorial)
               Good, no more reason to stall then. You are aware of your goal, an interior map has been provided, you will be able to choose your own path.
               In the local area there is a misappropriated mechanised unit of the manufacturing variety, we need you to dismantle it.
@@ -81,27 +83,28 @@ Now, similarly important, are you aware of how the provided mechanised Unit func
               Rooms with Enemies you will have to fight are marked as such.
               for every piece of decommissioned equipment we are willing to award you with one Company Credit.
               <<ChangeBackgroundImage GameManagerObject "Tutorial3">>
-              Company Credit can be used to buy systems, as well as repair or upgrade your mechanised unit at repair SHOPs.
+              Company Credit can be used to buy systems, as well as to repair and upgrade your mechanised unit at repair SHOPs.
               <<ChangeBackgroundImage GameManagerObject "Tutorial4">>
-              Rooms marked as such a registered to have working Systems, ready to be scavenged and added to your deck.
+              Rooms marked as such are registered to have working Systems, ready to be scavenged and added to your deck.
               <<ChangeBackgroundImage GameManagerObject "Tutorial5">>
-              And rooms like this are unclear areas where something will most likely be encountered, if enemies, obstacles or opportunities.
+              And rooms like this are unclear areas where something will most likely be encountered, be it enemies, obstacles or opportunities.
               I am about to continue with the Combat system.
                      -> "Please continue"
                             Okay, beginning with an explanation of the basic interface and functions.
                             <<ChangeBackgroundImage GameManagerObject "Tutorial6">>
                             This is the basic interface, On the bottom left you will see your available weapon systems, to the right your full deck, the already used weapons, and the ones yet to be drawn.
-                            Every turn you can discard 2 weapon systems, each time you do, a new one will be drawn.
+                            Twice every turn you can right click a weapon system to discard it, each time you do, a new one will be drawn.
                             The Gauge below your discard counter is your Energy Gauge, it shows you your built up Charge, using weapons uses Energy Charges, after you used all of them, you need to cool down your mech
-                            cooling down your mech, the button for it to the right, takes time which leaves you open for attack. But replenishes your Energy Charges fully.
-                            Right before your mech enters cooldown, your activated weapon systems fire off, firing off all the in your turn collected damage potential at once.
+                            cooling down your mech, the button for it is to the bottom right, takes time which leaves you open for attack, but replenishes your Energy Charges fully.
+                            Right before your mech enters cooldown, your activated weapon systems fire off, firing off all the collected damage potential at once.
                             moving on to the typical system-types you will find, do you wish me to continue?
                                    -> "Yes"
                                           <<ChangeBackgroundImage GameManagerObject "Tutorial7">>
                                           There are 4 different types of Systems
+                                          Many systems require 
                                           PHYsical and HACKing Systems are considered Weapon systems, they are used to inflict direct damage.
                                           <<ChangeBackgroundImage GameManagerObject "Tutorial8">>
-                                          Keep in mind, that hostiles who actively use Shields to block attacks, lessen the impact of any PHYsical damage inflicted on them.
+                                          Keep in mind that hostiles who actively use Shields to block attacks lessen the impact of any PHYsical damage inflicted on them.
                                           In return HACKing is less helpful against hostiles who are using Armor to block.
                                           <<ChangeBackgroundImage GameManagerObject "Tutorial7">>
                                           The other two systems are MULTiplier and RUST.
@@ -116,7 +119,7 @@ Now, similarly important, are you aware of how the provided mechanised Unit func
 <<ClearBackgroundImage GameManagerObject>>
 <<PilotSprite GameManagerObject "Black">>
 * Your radio clicks silent, you are alone
-* You sensors activate you landed in an old storeroom amongst tons of deactivated machinery
+* your sensors activate, you landed in an old storeroom amongst tons of deactivated machinery
 * Some seems salvagable
 <<RewardCards GameManagerObject 8 3>>
 There's some more
@@ -150,7 +153,7 @@ Colony AI: I am also your dedicated assistant, ensuring you get your work done a
                             Colony AI: In this colony, we cultivate a groundbreaking high security corporate attitude.
                             Colony AI: which also boasts a highly untamperable and defensible security system. 
                             Colony AI: As Corporation-Appointed Artificial Intelligence Management and Administrative System
-                            Colony AI: and as your personal, dedicated Assistant to finding a resolution to this matter, I can guarantuee 
+                            Colony AI: and as your personal, dedicated Assistant to finding a resolution to this matter, I can guarantee 
               <<jump CAIMAS1>>     
 ===
 title: CAIMAS1
@@ -324,14 +327,14 @@ The fire licks eagerly at the spilled and blown open fuel depots, deep from behi
 <<PilotSprite GameManagerObject "TheCorporation">>
 I would earnestly suggest you continue on your path.
 Insurgents, who tried to prepare a trap in your path, accidentally immolating themselves should be none of your concern.
-Frankly speaking, I can't believe we would have ever hired people as incompetent as this, I guess they not only look at abolishing the companies rule, but also the safety rules as well.
+Frankly speaking, I can't believe we would have ever hired people as incompetent as these, I guess they don't just intend to abolish the company rules, but also the safety ones as well.
        ->[Risk]Help the trapped burning Insurgents[/Risk]
               <<PilotSprite GameManagerObject "Encounter">>
               As you step into the inflamed sector, the mechs internal systems immediately chimes up to warn you of your unsafe environment, disembarking is strongly advised against.
               A group of huddled silhouettes are surrounded by flame, too busy fighting the encroaching flames to notice you.
               In one swift movement your mech tears away parts of collapsed scaffolding blocking of their path out of the room.
               The startled colonists do not hesitate, most make their way past you and down the hallway.
-              As you exit the room you already see most survivors scattering down deeper the corridor, a last one, a gas mask obscuring their face, stand a little away, a simple handgun aiming at you, covering the others escape.
+              As you exit the room you already see most survivors scattering down deeper into the corridor, a last one, a gas mask obscuring their face, stands a little away, a simple handgun aiming at you, covering the other's escape.
               No shot gets fired, as it gets more and more clear that you won't do anything, they lower their weapon and look at you a moment longer, before turning around and leaving too.
               <<set $ColonyTrust += 2>>
               <<PilotSprite GameManagerObject "TheCorporation">>
@@ -342,15 +345,15 @@ Frankly speaking, I can't believe we would have ever hired people as incompetent
               Let's go then.
        ->"Why are you against helping?" (Explore)
               VenuSystems IPC's general stance on this matter is prioritised focus on preservation of the most lives possible.
-              This does mean, your priority is not acting as a firefighter to save a select few, but making your way to cut off the head of this snake of a illegal insurrection.
-              By doing so, you can guarantuee the fastest reestablishment of order, which involves firefighting and aid services, provided by the company.
+              This does mean, your priority is not acting as a firefighter to save a select few, but making your way to cut off the head of this snake of an illegal insurrection.
+              By doing so, you can guarantee the fastest reestablishment of order, which involves firefighting and aid services, provided by the company.
               My personal stance on this.....
               No one will be working under these volatile conditions, therefore they must have known you will pass through here and planned sabotage.
-              Play stupid games, win stupid prices.
+              Play stupid games, win stupid prizes.
               Are you really going to save people that only got in this situation because they aimed to hurt you?
                      ->[Risk]Help the trapped burning Insurgents[/Risk]
                             <<PilotSprite GameManagerObject "Encounter">>
-                            As you step into the inflamed sector, the mechs internal systems immediately chimes up to warn you of your unsafe environment, disembarking is strongly advised against.
+                            As you step into the inflamed sector, the mechs internal systems immediately chime up to warn you of your unsafe environment, disembarking is strongly advised against.
                             A group of huddled silhouettes are surrounded by flame, too busy fighting the encroaching flames to notice you.
                             In one swift movement your mech tears away parts of collapsed scaffolding blocking of their path out of the room.
                             The startled colonists do not hesitate, most make their way past you and down the hallway.
@@ -393,7 +396,7 @@ title: RandomEncounter3
 <<jump SteelEye>>
 <<endif>>
 You come across a meager hangar with a small ship, the crew in a hurry to pack up every crate of cargo not yet on the ship.
-A mysterious one-eyed figure dressed in a ragged trenchcoat announces themselves with a bolsterous voice.
+A mysterious one-eyed figure dressed in a ragged trenchcoat announces themselves with a boisterous voice.
 Mysterious Figure: Greetings fine pilot, you wouldn't mind letting us finish our packing procedures, ey? we're just honest traders trying to make an honest living out here in this cold space.
 *looking around you can't help but notice this specific cargo bay being more empty than most of the others you have seen, any and all machinery stripped down to its bare essentials as well*
 Mysterious Figure: Okay friend, real talk, no bullshitting here, I would never lie to you, this was all like this when we got here, okay?
@@ -649,7 +652,7 @@ title: BossFight1
 ---
 <<PilotSprite GameManagerObject "BlueCollar">>
 How they keep finding cannon fodder like you is beyond me.
-What did they promise you to get you on this rock even.
+What did they have to promise to even get you on this rock.
 ->They can repair my body
        yeah, good luck with that, they barely managed to repair my damage.
 ->I don't think what I have to gain matters to you [pos](+1 Extra energy next turn)[/pos]
@@ -681,7 +684,8 @@ why even do this, we're trying to build something, you're just here to destroy
 title: BossFight4
 ---
 <<PilotSprite GameManagerObject "BlueCollar">>
-Just... STOP fighting, for gods sake!
+We can talk this out...
+Just... STOP attacking, for gods sake!
        -> Never 
        -> I won't stop 
        -> I will kill you [pos](+1 permanent Energy)[/pos]
@@ -739,13 +743,14 @@ Fabulous work, we knew you were right for the job!
               And now look at you, completed the main objective, gathered equipment and systems, you did an excellent job.
               you will get something even better than a fixed, limited biological body
               the scalability of it all...
-              A model like you could be deployed all over contested territories, let off of their leashes to spread controlled chaos.
+              A model like you could be deployed all over contested territories, unleashed to spread controlled chaos.
               You are a fine specimen.
                      -> "I feel weak-"
                             <<PilotSprite GameManagerObject "Black">>
                             Don't worry, recovery is already underway.
-                            Alot still must be done, alot of Bureaucracy too, you will get your reward.
+                            There's still much to be done, alot of Bureaucracy too, you will get your reward.
                             For now, we recommend you let your Unit enter sleep mode.
-                            Being disconnected of the power grid it must have ran out.
+                            Disconnected from the power grid, it must be almost out of battery
+                            
 
 ===

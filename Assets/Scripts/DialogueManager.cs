@@ -122,8 +122,8 @@ public class DialogueManager : MonoBehaviour
         if(GameManager.currentDeck.Count > card_amount)
         {
             GameObject temp_card_pick = Instantiate(CardDiscardPrefab, OutOfGameCanvas.transform);
-            temp_card_pick.GetComponentInChildren<NewCardSelector>().cardsToChoose = cards_to_choose;
-            temp_card_pick.GetComponentInChildren<NewCardSelector>().cardAmount = card_amount;
+            temp_card_pick.GetComponentInChildren<SelectCardsToDiscard>().cardsToChoose = cards_to_choose;
+            temp_card_pick.GetComponentInChildren<SelectCardsToDiscard>().cardAmount = card_amount;
             dialoguerunner.GetComponentInChildren<Canvas>().sortingOrder = 0;
         }
         else
@@ -241,6 +241,6 @@ public class DialogueManager : MonoBehaviour
     [YarnCommand("MissionComplete")]
     public void MissionComplete()
     {
-        
+        MissionCompletePanel.SetActive(true);
     }
 }

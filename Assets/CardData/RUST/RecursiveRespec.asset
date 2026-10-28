@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardRunner.Card
   cardName: Recursive Respec
   cardImage: {fileID: 0}
-  cardDescriptor: permanently switch the Defenses of your Enemies (Shield and Armor)
-    - "I could've sworn I've outfitted this mech with extra armor plating, why are
-    the shield capacitors everywhere now?"
+  cardDescriptor: permanently switch the Values of your Enemies defenses around (Shield
+    and Armor) - "I could've sworn I've outfitted this mech with extra armor plating,
+    why are the shield capacitors everywhere now?"
   cardType: 3
   cost: 2
   dmg: 0

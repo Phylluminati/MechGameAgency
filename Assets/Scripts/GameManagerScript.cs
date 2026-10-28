@@ -70,6 +70,7 @@ public class GameManagerScript : MonoBehaviour
     public int roundPhyDmgOutput;
     public int RoundlyEnergy = 4;
     public int TurnlyDiscards = 2;
+    private bool gameEnded;
 
 void Awake()
     {
@@ -150,7 +151,7 @@ public void NewRoundCheck()
     bool hasTalked = false;
 public void EndTurnFunction()
     {
-        if(currentEnemy.GetComponent<UnitTracker>().unitData == null)
+        if(currentEnemy.GetComponent<UnitTracker>().unitData == null || GameOver.activeSelf == true || BattleWonPanel.activeSelf == true || gameEnded == true)
         {
             return;
         }
@@ -1329,6 +1330,7 @@ IEnumerator EndBattle()
         ClearEnemyVisuals();
         if(isFinalBoss)
         {
+            gameEnded = true;
             this.GetComponent<DialogueManager>().StartDialogue("CorporateEnding");
             yield break;
         }

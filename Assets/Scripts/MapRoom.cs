@@ -63,7 +63,7 @@ public class MapRoom : MonoBehaviour
 
             case Encounter.Type.SHOP:
                 this.GetComponentInChildren<Image>().sprite = ShopSprite;
-                Sprite2D.transform.localScale = new Vector3(0.6f, 0.6f, 1);
+                Sprite2D.transform.localScale = new Vector3(1f, 1f, 1);
             break;
 
             case Encounter.Type.BOSS:
@@ -72,7 +72,7 @@ public class MapRoom : MonoBehaviour
             break;
             case Encounter.Type.CARDS:
                 this.GetComponentInChildren<Image>().sprite = CardSprite;
-                Sprite2D.transform.localScale = new Vector3(0.6f, 0.6f, 1);
+                Sprite2D.transform.localScale = new Vector3(0.8f, 0.8f, 1);
             return;
         }
         /*for(int m = 0; m < Map_Data[i][j].next_rooms.Count; m++)

@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Room
   Sprite2D: {fileID: 4965692186059520898}
   EncounterSprite: {fileID: 21300000, guid: 564a9fabfda038b4a89cb62ea45cd677, type: 3}
-  ShopSprite: {fileID: 21300000, guid: 58974a7e7fcb7e14ea8929f6e8e02e24, type: 3}
+  ShopSprite: {fileID: 1341708870, guid: 3f2e2ce013f70754287fde2ee29d2715, type: 3}
   EnemySprite: {fileID: 1491415016, guid: 3f2e2ce013f70754287fde2ee29d2715, type: 3}
   BossSprite: {fileID: -1289812028, guid: 3f2e2ce013f70754287fde2ee29d2715, type: 3}
   CardSprite: {fileID: 1680855362, guid: 3f2e2ce013f70754287fde2ee29d2715, type: 3}
