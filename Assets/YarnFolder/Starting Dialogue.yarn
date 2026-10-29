@@ -18,7 +18,7 @@ Mech: Beep Beep Beep Beep...
     -> Why can't I feel my body?
     -> Why can't I remember anything?
     //-> Quickstart(Dev)
-       //<<jump EmptyNode>>>>
+       //<<jump EmptyNode>>
 <<ChangeBackgroundImage GameManagerObject "OsBootUp2">>
 Mech: Awaiting Signal...
  -> could someone please tell me what is going on
@@ -688,6 +688,7 @@ We can talk this out...
 Just... STOP attacking, for gods sake!
        -> Never 
        -> I won't stop 
+       -> ...
        -> I will kill you [pos](+1 permanent Energy)[/pos]
               <<EnergyGain GameManagerObject 1>>
 <<set $keepstalking = false>>
@@ -731,7 +732,8 @@ If not, they probably pulled the plug and are already preparing the next copy to
 <<PilotSprite GameManagerObject "Black">>
 Lacking a body sucks, I'm sorry, you got the next best thing though.
 And lucky for you we are in need of any capable hands that can pilot.
-You can make the chaos you caused up to us.
+You can make up for the chaos you caused.
+<<MissionComplete GameManagerObject>>
 ===
 title: CorporateEnding
 ---
@@ -751,6 +753,7 @@ Fabulous work, we knew you were right for the job!
                             There's still much to be done, alot of Bureaucracy too, you will get your reward.
                             For now, we recommend you let your Unit enter sleep mode.
                             Disconnected from the power grid, it must be almost out of battery
+                            <<MissionComplete GameManagerObject>>
                             
 
 ===

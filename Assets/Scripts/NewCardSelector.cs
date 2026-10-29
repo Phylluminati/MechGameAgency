@@ -85,12 +85,12 @@ public class NewCardSelector : MonoBehaviour
                 Card.CardType temp_card_data = Card.CardType.NULL;
                 Card temp_card = null;
                 Card previous_card = null;
-                while(temp_card_data != typeChoice && previous_card != temp_card)
+                while(temp_card_data != typeChoice)
                 {
                     temp_card = gameManager.AllCardsInPlay[UnityEngine.Random.Range(0, (gameManager.AllCardsInPlay.Count))];
                     temp_card_data = temp_card.cardType;
                 }
-                previous_card = temp_card;
+                //previous_card = temp_card;
                 GameObject card = Instantiate(gameManager.GetComponent<GameManagerScript>().cardPrefab, this.transform);
                 card.transform.localScale = new Vector3 (0.75f, 0.75f, 1);
                 card.GetComponent<CardDisplayScript>().cardData = temp_card;

@@ -19574,6 +19574,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2649806437320471475, guid: e33b87b0b7fddf14fb1908cc7f8b6fd8, type: 3}
+      propertyPath: scrollspeed
+      value: 40000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2649806437320471475, guid: e33b87b0b7fddf14fb1908cc7f8b6fd8, type: 3}
       propertyPath: MAP_ROOM_PREFAB
       value: 
       objectReference: {fileID: 513169333500223923, guid: beea238a4f14cfe4a8930072c036b86e, type: 3}
